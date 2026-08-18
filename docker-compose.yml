@@ -1,0 +1,29 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: tera_atacado_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: Tera_atacado
+      MYSQL_PASSWORD: 1234
+      MYSQL_USER: Lucas
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  nginx:
+    image: nginx:alpine
+    container_name: "Front_tera_atacado"
+    restart: unless-stopped
+
+    ports:
+      - "8080:80"
+
+    volumes:
+      - ./Front_end/HTML:/usr/share/nginx/html:ro
+
+      
+volumes:
+  mysql_data:
