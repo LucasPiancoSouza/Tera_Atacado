@@ -24,6 +24,13 @@ services:
     volumes:
       - ./Front_end/HTML:/usr/share/nginx/html:ro
 
-      
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: "Backend_tera_atacado"
+    restart: unless-stoppend
+
+  
 volumes:
   mysql_data:
