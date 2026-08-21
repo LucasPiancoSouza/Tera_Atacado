@@ -28,7 +28,6 @@ Desenvolver um sistema de gerenciamento de estoque que auxilie no controle dos p
 - Lucas
 - Cadu
 - Luiz
-- [Seu nome]
 
 ## Tecnologias
 
