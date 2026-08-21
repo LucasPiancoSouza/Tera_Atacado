@@ -4,10 +4,10 @@ services:
     container_name: tera_atacado_mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: Tera_atacado
-      MYSQL_PASSWORD: 1234
-      MYSQL_USER: Lucas
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
     ports:
       - "3307:3306"
     volumes:
@@ -31,6 +31,12 @@ services:
       dockerfile: Dockerfile
     container_name: "Backend_tera_atacado"
     restart: unless-stopped
+    
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
   
 volumes:
