@@ -3,6 +3,7 @@ services:
     image: mysql:8.4
     container_name: tera_atacado_mysql
     restart: unless-stopped
+    command: --log-bin-trust-function-creators=1
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
