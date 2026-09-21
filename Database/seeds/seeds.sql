@@ -125,3 +125,7 @@ VALUES (
     1,
     'Teste da trigger - entrada'
 );
+
+alter table produtos add column codigo_de_barras varchar(128) not null unique;
+alter table produtos drop column codigo_de_barras;
+alter table produtos drop column quantidade_produto;

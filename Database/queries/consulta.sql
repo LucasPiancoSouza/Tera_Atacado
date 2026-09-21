@@ -38,3 +38,4 @@ GROUP BY id_produto;
 SELECT id_produto, nome_produto, quantidade_produto 
 FROM produtos 
 WHERE id_produto = 2;
+
