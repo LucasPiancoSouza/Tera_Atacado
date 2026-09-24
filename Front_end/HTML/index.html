@@ -1,33 +1,71 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tera Atacado</title>
+    <meta name="description" content="Acesso ao sistema Tera Atacado">
+    <title>Entrar | Tera Atacado</title>
     <link rel="stylesheet" href="../CSS/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <img src="../Img/tera_logo.png" class="logo">
-    </header>
-    <div class="mexercontainer">
+    <main class="login-page">
+        <section class="login-shell" aria-labelledby="login-title">
+            <div class="brand-panel">
+                <img src="../Img/logo_tera.png" alt="Tera Atacado" class="logo">
+                <p class="brand-kicker">Gestão comercial</p>
+                <h1>Controle seu negócio com clareza.</h1>
+                <p class="brand-description">
+                    Acesse o sistema para acompanhar estoque, movimentações e as informações do seu atacado.
+                </p>
+            </div>
 
-    <div class="container_login">
+            <div class="login-panel">
+                <div class="login-header">
+                    <span class="section-label">Acesso ao sistema</span>
+                    <h2 id="login-title">Bem-vindo de volta</h2>
+                    <p>Entre com seus dados para continuar.</p>
+                </div>
 
-        <div class="login">
+                <form class="login-form" action="#" method="post">
+                    <div class="field-group">
+                        <label for="usuario">Usuário ou e-mail</label>
+                        <input
+                            id="usuario"
+                            name="usuario"
+                            type="text"
+                            autocomplete="username"
+                            placeholder="Digite seu usuário ou e-mail"
+                            required
+                        >
+                    </div>
 
-         <input type="text" required class="text" placeholder="Usuário:">
-         <input type="password" class="password" placeholder="Senha:">
-         <a href="#"><button class="button" type="submit">Entrar</button></a>
-        </div>
+                    <div class="field-group">
+                        <label for="senha">Senha</label>
+                        <div class="password-field">
+                            <input
+                                id="senha"
+                                name="senha"
+                                type="password"
+                                autocomplete="current-password"
+                                placeholder="Digite sua senha"
+                                required
+                            >
+                            <button class="password-toggle" type="button" aria-label="Mostrar senha" aria-pressed="false">
+                                Mostrar
+                            </button>
+                        </div>
+                    </div>
 
-        
-    </div>
+                    <button class="button button-primary" type="submit">Entrar</button>
+                </form>
 
-    </div>
+            </div>
+        </section>
+    </main>
 
+    <script src="../JAVASCRIPT/script.js"></script>
 </body>
 </html>
