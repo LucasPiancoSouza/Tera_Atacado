@@ -1,0 +1,141 @@
+* {
+padding:0;
+margin:0;
+}
+
+.header {
+    width:100%;
+    height:13vh;
+    background-color:#ffffff;
+    display:flex;
+    align-items:center;
+    border-bottom: 1px solid #e5e5e5;
+}
+.logo {
+
+    display:flex;
+    align-items:center;
+    flex-direction: column;
+    width:25vh;
+    height:20vh;
+   
+}
+
+.sidebar {
+    background-color: rgb(255, 255, 255);
+    width:30vh;
+    height:100%;
+}
+.texto {
+    font-size:20px;
+    margin-left:4vh;
+    animation: aparecer 1s ease-in-out;
+    font-family: 'Inter', sans-serif;
+
+}
+.sidebar{
+    border-right: 1px solid #e5e5e5;
+}
+
+@keyframes aparecer {
+  from {
+        opacity: 0;
+        transform: translateX(-25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+nav {
+    margin-top: 20px;
+}
+
+.menu-section {
+    margin-bottom: 25px;
+}
+
+.menu-section h3 {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #999;
+    margin: 0 10px 8px;
+}
+
+.destaque {
+    color:#2b6827;
+    font-size:20px;
+    
+}
+.destaque2 {
+     color:#be5906;
+    font-size:20px;
+}
+
+
+
+.menu-item {
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 0 11px;
+
+    margin-bottom: 2px;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    color: #3f3f3f;
+
+    font-size: 14px;
+
+        transition: 
+       background-color 0.2s ease,
+       
+        color 0.2s ease,
+        transform 0.4s ease;
+}
+
+.menu-item span:first-child {
+    width: 13px;
+    color: #000000;
+    font-size: 18px;
+    text-align: center;
+}
+
+.menu-item.focus {
+    background-color: #e8f0e6;
+    color: #478443;
+    font-weight: bold;
+}
+
+.menu-item:hover {
+    background-color: #f0f3ef;
+}
+
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+span {
+    font-size:2vh;
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+    
+}
+.menu-item span:last-child {
+    color: #3f3f3f;
+    transition: color 0.3s ease;
+}
+
+.menu-item:hover span:last-child {
+    color: #6a9b66;
+}

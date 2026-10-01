@@ -1,15 +1,19 @@
-const passwordInput = document.querySelector('#senha');
-const passwordToggle = document.querySelector('.password-toggle');
+const senha = document.querySelector('#senha');
+const botao = document.querySelector('.password-toggle');
+// const formulario = document.querySelector('.login-form');
 
-if (passwordInput && passwordToggle) {
-    passwordToggle.addEventListener('click', () => {
-        const isPassword = passwordInput.type === 'password';
-        passwordInput.type = isPassword ? 'text' : 'password';
-        passwordToggle.textContent = isPassword ? 'Ocultar' : 'Mostrar';
-        passwordToggle.setAttribute('aria-pressed', String(isPassword));
-        passwordToggle.setAttribute(
-            'aria-label',
-            isPassword ? 'Ocultar senha' : 'Mostrar senha'
-        );
-    });
-}
+botao.addEventListener('click', () => {
+    if (senha.type === 'password') {
+        senha.type = 'text';
+        botao.textContent = 'Ocultar';
+    } else {
+        senha.type = 'password';
+        botao.textContent = 'Mostrar';
+    }
+});
+
+// formulario.addEventListener('submit', (event) => {
+//     event.preventDefault();
+
+//     window.location.href = "tela_principal.html";
+// });

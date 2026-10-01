@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../CSS/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="../Img/icon/logo.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -29,16 +30,15 @@
                     <p>Entre com seus dados para continuar.</p>
                 </div>
 
-                <form class="login-form" action="#" method="post">
+                <form class="login-form" action="index.php" method="POST">
                     <div class="field-group">
-                        <label for="usuario">Usuário ou e-mail</label>
+                        <label for="usuario">CPF</label>
                         <input
                             id="usuario"
-                            name="usuario"
                             type="text"
-                            autocomplete="username"
-                            placeholder="Digite seu usuário ou e-mail"
+                            placeholder="Digite seu CPF"
                             required
+                            name="CPF"
                         >
                     </div>
 
@@ -47,11 +47,11 @@
                         <div class="password-field">
                             <input
                                 id="senha"
-                                name="senha"
                                 type="password"
                                 autocomplete="current-password"
                                 placeholder="Digite sua senha"
                                 required
+                                name="senha"
                             >
                             <button class="password-toggle" type="button" aria-label="Mostrar senha" aria-pressed="false">
                                 Mostrar

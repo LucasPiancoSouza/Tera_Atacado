@@ -25,9 +25,9 @@ Desenvolver um sistema de gerenciamento de estoque que auxilie no controle dos p
 
 ## Integrantes
 
-- Lucas
-- Cadu
-- Luiz
+- Lucas Piancó
+- Carlos Eduardo
+- Luis Gabriel
 
 ## Tecnologias
 
@@ -45,6 +45,7 @@ O projeto utiliza Docker para criar um ambiente de desenvolvimento separado para
 
 - MySQL
 - Nginx
+- PHP
 
 Os demais serviços serão adicionados durante o desenvolvimento.
 
@@ -82,5 +83,4 @@ A porta `3307` do computador é direcionada para a porta `3306` do MySQL dentro 
 
 ## Status do projeto
 
-Em desenvolvimento. A estrutura inicial do Docker e do banco de dados está sendo configurada.
-
+Em desenvolvimento.
