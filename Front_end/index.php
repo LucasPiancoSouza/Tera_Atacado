@@ -21,6 +21,7 @@
                 <p class="brand-description">
                     Acesse o sistema para acompanhar estoque, movimentações e as informações do seu atacado.
                 </p>
+                
             </div>
 
             <div class="login-panel">
@@ -30,7 +31,7 @@
                     <p>Entre com seus dados para continuar.</p>
                 </div>
 
-                <form class="login-form" action="index.php" method="POST">
+                <form class="login-form" action="login.php" method="POST">
                     <div class="field-group">
                         <label for="usuario">CPF</label>
                         <input
@@ -66,6 +67,6 @@
         </section>
     </main>
 
-    <script src="../JAVASCRIPT/script.js"></script>
+    <script src="/Front_end/JAVASCRIPT/script.js"></script>
 </body>
 </html>
