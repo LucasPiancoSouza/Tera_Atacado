@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Acesso ao sistema Tera Atacado">
     <title>Entrar | Tera Atacado</title>
-    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="CSS/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="icon" href="../Img/icon/logo.jpg">
+    <link rel="icon" href="Img/tera_logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <main class="login-page">
         <section class="login-shell" aria-labelledby="login-title">
             <div class="brand-panel">
-                <img src="../Img/tera_logo.png" alt="Tera Atacado" class="logo">
+                <img src="Img/tera_logo.png" alt="Tera Atacado" class="logo">
                 <p class="brand-kicker">Gestão comercial</p>
                 <h1>Controle seu negócio com clareza.</h1>
                 <p class="brand-description">
@@ -67,6 +67,6 @@
         </section>
     </main>
 
-    <script src="/Front_end/JAVASCRIPT/script.js"></script>
+    <script src="JAVASCRIPT/script.js"></script>
 </body>
 </html>
