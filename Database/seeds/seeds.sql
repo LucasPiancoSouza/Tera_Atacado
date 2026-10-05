@@ -129,3 +129,7 @@ VALUES (
 alter table produtos add column codigo_de_barras varchar(128) not null unique;
 alter table produtos drop column codigo_de_barras;
 alter table produtos drop column quantidade_produto;
+
+insert into usuarios(nome_usuario,email,senha,cpf,tipo_usuario) values ("Luis", "luis@gamil.com","2906","278.754.416-09","1");
+insert into usuarios(nome_usuario,email,senha,cpf,tipo_usuario) values ("Lucas", "lucas@gamil.com","1603","987.736.478.09","1");
+insert into usuarios(nome_usuario,email,senha,cpf,tipo_usuario) values ("Carlos", "carlos@gamil.com","120213","756.394.908.09","0");

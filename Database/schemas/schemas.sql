@@ -1,4 +1,5 @@
--- Estrutura do Banco
+CREATE DATABASE tera_atacado;
+USE tera_atacado;
 
 CREATE TABLE usuarios (
     id_usuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -6,7 +7,7 @@ CREATE TABLE usuarios (
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(60) NOT NULL,
     cpf VARCHAR(14) NOT NULL,
-    tipo_usuario VARCHAR(20) NOT NULL
+    tipo_usuario ENUM('0','1') NOT NULL
 );
 
 CREATE TABLE fornecedores (
@@ -25,45 +26,54 @@ CREATE TABLE categorias (
     data_criacao DATE NOT NULL
 );
 
+CREATE TABLE localizacao (
+    id_localizacao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    setor VARCHAR(50) NOT NULL,
+    corredor INT NOT NULL,
+    andar INT NOT NULL
+);
+
 CREATE TABLE produtos (
     id_produto INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     nome_produto VARCHAR(100) NOT NULL,
     codigo_produto VARCHAR(13) NOT NULL,
     preco DECIMAL(10,2) NOT NULL,
-    quantidade_produto INT NOT NULL,
     id_fornecedor INT NOT NULL,
     id_categoria INT NOT NULL,
-    
-    FOREIGN KEY (id_fornecedor) REFERENCES fornecedores(id_fornecedor),
-    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
+    codigo_de_barras VARCHAR(128) NOT NULL UNIQUE,
+
+    FOREIGN KEY (id_fornecedor)
+        REFERENCES fornecedores(id_fornecedor),
+
+    FOREIGN KEY (id_categoria)
+        REFERENCES categorias(id_categoria)
+);
+
+CREATE TABLE localizacao_produto (
+    id_localizacao_produto INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_localizacao INT NOT NULL,
+    id_produto INT NOT NULL,
+    quantidade_produto INT NOT NULL,
+
+    FOREIGN KEY (id_produto)
+        REFERENCES produtos(id_produto),
+
+    FOREIGN KEY (id_localizacao)
+        REFERENCES localizacao(id_localizacao)
 );
 
 CREATE TABLE movimentacoes (
     id_movimentacao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    tipo_modicacao INT NOT NULL, -- 0-saidas 1-entradas 2-ajustes
+    tipo_modificacao INT NOT NULL,
     quantidade INT NOT NULL,
     id_produto INT NOT NULL,
     id_usuario INT NOT NULL,
     data_hora_movimentacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     observacao TEXT,
-    
-    FOREIGN KEY (id_produto) REFERENCES produtos(id_produto),
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
-);
-DELIMITER //
-create trigger atualizar_estoque
-after insert on movimentacoes
-for each row
-begin
 
-	if NEW.tipo_modificacao = 1 then
-		update produtos set quantidade_produto = quantidade_produto + NEW.quantidade
-        where id_produto = NEW.id_produto;
-        
-	elseif NEW.tipo_modificacao = 0 then 
-		update produtos set quantidade_produto = quantidade_produto - New.quantidade
-        where id_produto = NEW.id_produto;
-        
-	end if;
-end //
-DELIMITER ;
+    FOREIGN KEY (id_produto)
+        REFERENCES produtos(id_produto),
+
+    FOREIGN KEY (id_usuario)
+        REFERENCES usuarios(id_usuario)
+);

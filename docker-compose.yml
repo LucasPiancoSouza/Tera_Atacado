@@ -31,7 +31,7 @@ services:
       - "8081:80"
 
     volumes:
-      - "./Front_end:/var/www/html"
+      - "./:/var/www/html"
   
 volumes:
   mysql_data:
