@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/tela_principal.css">
+    <link rel="stylesheet" href="CSS/tela_principal.css">
     <title>Tera Atacado</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
 
     <header class="header">
         <div class="logodiv">
-            <img src="../Img/logo_tera.png" class="logo" alt="Logo Tera Atacado">
+            <img src="Img/logo_tera.png" class="logo" alt="Logo Tera Atacado">
         </div>
 
         <main class="main">
