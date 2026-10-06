@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -28,7 +31,21 @@
                 <div class="login-header">
                     <span class="section-label">Acesso ao sistema</span>
                     <h2 id="login-title">Bem-vindo de volta</h2>
-                    <p>Entre com seus dados para continuar.</p>
+                    <?php  
+                 
+                    if(isset($_SESSION['erro_login']) && $_SESSION['erro_login'] == true){
+                        ?>
+                        <p style="color: red;"><b>CPF ou senha errados, tente novamente</b></p>
+                    <?php
+                    unset($_SESSION['erro_login']);
+                    }else{
+                        ?>
+                        <p>Digite seu CPF e Senha</p>
+                    <?php
+                    }
+                    unset($_SESSION['erro_login']);
+                    ?>
+                    
                 </div>
 
                 <form class="login-form" action="login.php" method="POST">
@@ -40,6 +57,7 @@
                             placeholder="Digite seu CPF"
                             required
                             name="CPF"
+                            maxlength="14"
                         >
                     </div>
 

@@ -12,8 +12,17 @@ botao.addEventListener('click', () => {
     }
 });
 
-// formulario.addEventListener('submit', (event) => {
-//     event.preventDefault();
+const cpf = document.querySelector('#usuario');
 
-//     window.location.href = "tela_principal.html";
-// });
+cpf.addEventListener('input', () => {
+
+    let valor = cpf.value;
+
+    valor = valor.replace(/\D/g, '');
+
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+
+    cpf.value = valor;
+});
