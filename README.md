@@ -1,86 +1,80 @@
 # Tera Atacado
 
-Sistema de gerenciamento de estoque desenvolvido para o Tera Atacado, um atacadão fictício criado como projeto acadêmico.
+Sistema de gerenciamento de estoque desenvolvido como projeto acadêmico para um atacadão fictício.
 
 ## Sobre o projeto
 
-O Tera Atacado tem como objetivo facilitar o controle e o gerenciamento do estoque do estabelecimento, permitindo acompanhar produtos, entradas, saídas e informações importantes por meio de uma interface simples e intuitiva.
+O Tera Atacado está sendo desenvolvido para apoiar o controle de produtos, fornecedores, categorias e movimentações de estoque. O sistema ainda está em desenvolvimento: algumas telas e estruturas de banco já existem, mas os fluxos de gestão ainda não estão completos.
 
-## Objetivo
+## Estado atual
 
-Desenvolver um sistema de gerenciamento de estoque que auxilie no controle dos produtos e permita visualizar informações importantes sobre o estoque de forma rápida e organizada.
+### Implementado ou estruturado
 
-## Funcionalidades
+- Tela de acesso em PHP/HTML com estilos responsivos e opção para mostrar ou ocultar a senha.
+- Backend PHP com conexão ao MySQL por variáveis de ambiente.
+- Estrutura de banco de dados para usuários, fornecedores, categorias, produtos, localizações e movimentações.
+- Modelo de estoque por localização, com quantidade de cada produto em cada local.
+- Campos para código de barras e registro de entradas e saídas, incluindo usuário, data e observação.
+- Ambiente Docker Compose com MySQL e PHP 8.4/Apache.
 
-- Login de usuários
-- Dashboard com informações do estoque
-- Cadastro e exclusão de produtos
-- Controle de entradas e saídas
-- Visualização da quantidade de produtos
-- Identificação dos produtos com maior e menor quantidade em estoque
-- Gráficos informativos
-- Geração de relatórios
-- Perfil do usuário
-- Controle das informações do administrador
+## Tecnologias
 
-## Integrantes
+- **Interface:** HTML, CSS, JavaScript e PHP
+- **Backend e servidor web:** PHP 8.4 com Apache
+- **Banco de dados:** MySQL 8.4
+- **Ambiente de desenvolvimento:** Docker Compose
+
+## Executar com Docker
+
+1. Crie o arquivo `.env` a partir do exemplo e ajuste as credenciais conforme necessário:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Inicie os serviços:
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+3. Confira os containers:
+
+   ```bash
+   docker compose ps
+   ```
+
+4. Acesse a tela de entrada em <http://localhost:8080/Front_end/>. O endpoint de verificação do backend está em <http://localhost:8080/Back_end/public/>.
+
+Para parar os serviços:
+
+```bash
+docker compose down
+```
+
+Os dados do MySQL são mantidos no volume `mysql_data`. O arquivo `Database/schemas/schemas.sql` não é importado automaticamente pelo Compose; antes de usá-lo, confira se o nome do banco definido no script corresponde exatamente ao valor de `MYSQL_DATABASE` no `.env`.
+
+## Banco de dados
+
+As configurações do banco são lidas das variáveis abaixo:
+
+| Variável | Exemplo no `.env.example` | Uso |
+| --- | --- | --- |
+| `MYSQL_DATABASE` | `Tera_atacado` | Banco utilizado pela aplicação |
+| `MYSQL_USER` | `usuario` | Usuário da aplicação |
+| `MYSQL_PASSWORD` | `senha` | Senha do usuário da aplicação |
+| `MYSQL_ROOT_PASSWORD` | `senha` | Senha administrativa do MySQL |
+| Porta no host | `3307` | Acesso externo ao MySQL |
+| Porta no container | `3306` | Porta interna do MySQL |
+
+O schema em `Database/schemas/schemas.sql` define as tabelas `usuarios`, `fornecedores`, `categorias`, `produtos`, `localizacao`, `localizacao_produto` e `movimentacoes`.
+
+## Equipe
 
 - Lucas Piancó
 - Carlos Eduardo
 - Luis Gabriel
 
-## Tecnologias
-
-- **Front-end:** HTML, CSS, JavaScript e Nginx
-- **Back-end:** PHP e Apache
-- **Banco de dados:** MySQL
-- **Análise e relatórios:** Python
-- **Infraestrutura:** Docker e Docker Compose
-
-## Docker
-
-O projeto utiliza Docker para criar um ambiente de desenvolvimento separado para cada serviço.
-
-### Serviços atuais
-
-- MySQL
-- Nginx
-- PHP
-
-Os demais serviços serão adicionados durante o desenvolvimento.
-
-### Comandos
-
-```bash
-# Iniciar os containers
-docker compose up -d
-
-# Verificar os containers
-docker ps
-
-# Parar os containers
-docker compose down
-```
-
-## Acesso ao front-end
-
-Com o Docker em execução, acesse:
-
-<http://localhost:8080>
-
-## Banco de dados
-
-O MySQL é executado dentro de um container Docker.
-
-| Configuração | Valor |
-| --- | --- |
-| Banco | `Tera_atacado` |
-| Usuário | `` |
-| Porta no host | `3307` |
-| Porta no container | `3306` |
-
-A porta `3307` do computador é direcionada para a porta `3306` do MySQL dentro do container.
-
-## Status do projeto
+## Status
 
 Em desenvolvimento.
