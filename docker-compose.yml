@@ -31,7 +31,8 @@ services:
       - "8080:80"
 
     volumes:
-      - "./:/var/www/html"
+      - ./:/var/www/html
+      # - ./Back_end/config:/var/www/config
   
 volumes:
   mysql_data:
