@@ -1,0 +1,44 @@
+# ==========================================
+# TERA ATACADO - APACHE
+# ==========================================
+
+Options -Indexes
+
+RewriteEngine On
+
+
+# ==========================================
+# BLOQUEAR ARQUIVOS SENSÍVEIS
+# ==========================================
+
+<FilesMatch "^(\.env|\.env\..*|\.gitignore|\.htaccess|docker-compose\.yml|Dockerfile|README\.md|LICENSE)$">
+    Require all denied
+</FilesMatch>
+
+
+# ==========================================
+# BLOQUEAR ARQUIVOS OCULTOS
+# ==========================================
+
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+
+# ==========================================
+# BLOQUEAR ARQUIVOS DE CONFIGURAÇÃO/BACKUP
+# ==========================================
+
+<FilesMatch "\.(sql|log|ini|conf|bak|backup|old)$">
+    Require all denied
+</FilesMatch>
+
+
+# ==========================================
+# BLOQUEAR PASTAS INTERNAS
+# ==========================================
+
+RewriteRule ^Back_end(?:/|$) - [F,L]
+RewriteRule ^Database(?:/|$) - [F,L]
+RewriteRule ^Docker(?:/|$) - [F,L]
+RewriteRule ^Python(?:/|$) - [F,L]
