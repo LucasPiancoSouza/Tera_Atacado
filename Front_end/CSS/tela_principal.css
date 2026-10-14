@@ -160,10 +160,10 @@ main {
 .container {
 
      width: 95%;
-    height: 155px;
+    height: 150px;
     box-sizing: border-box;
     background-color: white;
-    border: 1px solid #dcdcdc;
+    border: 1px solid black;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -215,7 +215,7 @@ main {
     width: 100%;
     height:350px;
     background-color:rgb(255, 255, 255);
-    border:1px solid grey;
+    border: 1px solid black;
     display:flex;
     border-radius:1vh;
     flex-direction: column;
@@ -266,11 +266,7 @@ select:hover {
     transition: 0.2s ease;
     transform: translateY(-1px);
 }
-select:focus {
-    outline: none;
-    border-color: #2b6827;
-    box-shadow: 0 0 0 3px rgba(94, 255, 0, 0.301);
-}
+
 
 .card-stock {
     
@@ -278,7 +274,7 @@ select:focus {
     height: 350px;
     box-sizing: border-box;
     background-color: white;
-    border: 1px solid grey;
+    border: 1px solid black;
     border-radius: 8px;
     display:flex;
     flex-direction: column;
@@ -329,4 +325,370 @@ select:focus {
 }
 button:hover {
     border: 1px solid black;
+}
+
+.stock-list {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+
+    max-height: 190px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding-right: 8px;
+    box-sizing: border-box;
+}
+
+.stock-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left:20px;
+}
+
+.product-name,
+.product-category {
+    display: block;
+}
+
+.product-name {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.product-category {
+    margin-top: 4px;
+    color: #777;
+}
+
+.stock-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-right: 20px;
+   
+}
+
+
+.stock-quantity {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 32px;
+    margin-top:-1vh;
+}
+
+.stock-status {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    padding: 0 14px;
+    box-sizing: border-box;
+    background-color: #fff1e8;
+    color: #e76f00;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    margin-top:-1vh;
+    
+}
+
+.summary-of-stock {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 16px;
+    width: 100%;
+    margin-top: 24px;
+}
+
+.card-product {
+    width: 100%;
+    min-height: 308px;
+    height: auto;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border: 1px solid black;
+    border-radius: 12px;
+
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.card-product-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #222222;
+}
+
+.card-product-description {
+    display: block;
+    font-size: 11px;
+    color: #999999;
+    margin-top: 5px;
+}
+
+.product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.card-product .product-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: #222222;
+}
+
+.card-product .product-category {
+    font-size: 10px;
+    color: #888888;
+    margin-top: 0;
+}
+
+.product-stock {
+    flex-shrink: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111111;
+}
+
+.card-moviment {
+    width: 100%;
+    min-height: 308px;
+    height: auto;
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid black;
+    border-radius: 12px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.moviment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.moviment-title,
+.moviment-description {
+    display: block;
+    font-family: 'Inter', sans-serif;
+}
+
+.moviment-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #222222;
+}
+
+.moviment-description {
+    margin-top: 4px;
+    font-size: 11px;
+    color: #999999;
+}
+
+.moviment-button {
+    flex-shrink: 0;
+    padding: 10px 15px;
+    border: 1px solid #dedede;
+    border-radius: 9px;
+    background-color: #ffffff;
+    color: #333333;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease,
+                border-color 0.2s ease;
+}
+
+.moviment-button:hover {
+    background-color: #f7f7f7;
+    border-color: #bdbdbd;
+}
+
+.moviment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.moviment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.moviment-details {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.moviment-product {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #222222;
+}
+
+.moviment-date {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: #888888;
+}
+
+.moviment-quantity {
+    flex-shrink: 0;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.moviment-quantity.entrada {
+    background-color: #eaf5e8;
+    color: #438344;
+}
+
+.moviment-quantity.saida {
+    background-color: #fff0e8;
+    color: #d96b32;
+}
+/* ================================
+   CORREÇÃO DO CARD DO GRÁFICO
+================================ */
+
+.card-graphic {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    height: 350px;
+    min-width: 0;
+    min-height: 350px;
+    max-height: 350px;
+
+    box-sizing: border-box;
+    padding: 18px;
+
+    background-color: #ffffff;
+    border: 1px solid black;
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+/* Título do gráfico */
+.card-graphic .card-title2 {
+    display: block;
+    margin: 0;
+    padding-right: 145px;
+
+    font-size: clamp(16px, 2.2vh, 20px);
+    font-weight: 600;
+    color: #000000;
+}
+
+/* Descrição do gráfico */
+.card-graphic .card-description {
+    display: block;
+    margin: 6px 0 0;
+
+    font-size: clamp(12px, 1.8vh, 15px);
+    color: #999999;
+}
+
+/* Seletor do período: fica no canto superior direito */
+.card-graphic .select {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+
+    width: 130px;
+    max-width: 40%;
+
+    margin: 0;
+    padding: 8px;
+
+    box-sizing: border-box;
+    align-self: auto;
+
+    border: 1px solid #9999;
+    border-radius: 7px;
+
+    background-color: #ffffff;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Área do gráfico: ocupa somente o espaço disponível */
+.card-graphic .chart-container {
+    position: relative;
+
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+
+    width: 100%;
+    margin-top: 14px;
+
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Canvas controlado pelo tamanho da área do gráfico */
+.card-graphic .chart-container canvas {
+    display: block;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    max-width: 100%;
+}
+
+/* Impede que os cards do mesmo grid alarguem a página */
+.chart-row > * {
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* Adaptação para telas menores */
+@media (max-width: 900px) {
+    .chart-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .card-graphic {
+        width: 100%;
+    }
 }
