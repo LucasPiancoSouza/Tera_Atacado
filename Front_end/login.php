@@ -28,9 +28,9 @@ if (!$usuario || $senha !== $usuario['senha']) {
     $_SESSION['erro_login'] = false ;
 
 if ($usuario['tipo_usuario'] === '1') {
-    $_SESSION['tipo_usuario'] = 'adm';
+    $_SESSION['tipo_usuario'] = '1';
 } else {
-    $_SESSION['tipo_usuario'] = 'funcionario';
+    $_SESSION['tipo_usuario'] = '0';
 }
 
 header('Location: tela_principal.php');

@@ -89,7 +89,146 @@
                     <p class="page-subtitle">Consulte o catálogo e acompanhe a situação do estoque.</p>
                 </div>
             </div>
+<!-- Cadastro de novo produto -->
+<details class="product-form-panel">
 
+    <summary class="product-form-panel__summary">
+
+        <div class="product-form-panel__heading">
+            <span class="product-form-panel__eyebrow">
+                CATÁLOGO DE PRODUTOS
+            </span>
+
+            <span class="product-form-panel__title">
+                Cadastrar novo produto
+            </span>
+
+            <span class="product-form-panel__description">
+                Preencha os dados para adicionar um produto ao catálogo.
+            </span>
+        </div>
+
+        <span class="product-form-panel__action">
+            <span aria-hidden="true">＋</span>
+            Novo produto
+        </span>
+
+    </summary>
+
+    <form
+        class="product-form"
+        action="produto_cadastrar.php"
+        method="post"
+    >
+
+        <div class="product-form__grid">
+
+            <div class="product-form__field">
+                <label for="nome_produto">Nome do produto</label>
+
+                <input
+                    type="text"
+                    id="nome_produto"
+                    name="nome_produto"
+                    maxlength="100"
+                    placeholder="Ex.: Arroz 5kg"
+                    required
+                >
+            </div>
+
+            <div class="product-form__field">
+                <label for="codigo_produto">Código do produto</label>
+
+                <input
+                    type="text"
+                    id="codigo_produto"
+                    name="codigo_produto"
+                    maxlength="13"
+                    placeholder="Ex.: ALI-001"
+                    required
+                >
+            </div>
+
+            <div class="product-form__field">
+                <label for="preco">Preço (R$)</label>
+
+                <input
+                    type="number"
+                    id="preco"
+                    name="preco"
+                    min="0.01"
+                    step="0.01"
+                    placeholder="0,00"
+                    required
+                >
+            </div>
+
+            <div class="product-form__field">
+                <label for="codigo_de_barras">Código de barras</label>
+
+                <input
+                    type="text"
+                    id="codigo_de_barras"
+                    name="codigo_de_barras"
+                    maxlength="128"
+                    placeholder="Informe o código de barras"
+                    required
+                >
+            </div>
+
+            <div class="product-form__field">
+                <label for="id_categoria">Categoria</label>
+
+                <select
+                    id="id_categoria"
+                    name="id_categoria"
+                    required
+                >
+                    <option value="" selected disabled>
+                        Selecione uma categoria
+                    </option>
+                </select>
+            </div>
+
+            <div class="product-form__field">
+                <label for="id_fornecedor">Fornecedor</label>
+
+                <select
+                    id="id_fornecedor"
+                    name="id_fornecedor"
+                    required
+                >
+                    <option value="" selected disabled>
+                        Selecione um fornecedor
+                    </option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="product-form__footer">
+
+            <p class="product-form__note">
+                Os campos marcados como obrigatórios devem ser preenchidos.
+            </p>
+
+            <div class="product-form__buttons">
+
+                <button type="reset" class="product-form__clear">
+                    Limpar campos
+                </button>
+
+                <button type="submit" class="product-form__submit">
+                    Cadastrar produto
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</details>
             <section class="metric-grid" aria-label="Resumo dos produtos">
                 <article class="metric-card">
                     <span class="metric-card__label">Produtos listados</span>
@@ -200,7 +339,7 @@
             <p class="logout-modal__eyebrow">Tera Atacado</p>
             <h2 class="logout-modal__title" id="logout-modal-title">Deseja sair do sistema?</h2>
             <p class="logout-modal__text">Tem certeza de que deseja encerrar sua sessão agora?</p>
-            < class="logout-modal__actions">
+            <div class="logout-modal__actions">
                 <a class="logout-modal__button logout-modal__cancel" href="#">Cancelar</a>
                 <a class="logout-modal__button logout-modal__confirm" href="logout.php">Sair</a>
             </div>

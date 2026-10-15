@@ -282,7 +282,7 @@ foreach (
 
                 </div>
                 <div class="container">
-                    <span class="card-title">Produtos em estoque</span>
+                    <span class="card-title">Quantidade total de produtos em estoque</span>
                     <span class="card-value">
                         <?php
 
