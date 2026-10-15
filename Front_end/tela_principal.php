@@ -172,11 +172,11 @@ foreach (
                 <nav>
                     <div class="menu-section">
                         <h3>PRINCIPAL</h3>
-                        <a href="#" class="menu-item active">
+                        <a href="tela_principal.php" class="menu-item active" aria-current="page">
                             <span>⌂</span>
                             <span>Dashboard</span>
                         </a>
-                        <a href="#" class="menu-item">
+                        <a href="produtos.php" class="menu-item">
                             <span>▦</span>
                             <span>Produtos</span>
                         </a>
@@ -199,7 +199,7 @@ foreach (
                             <span>−</span>
                             <span>Saídas</span>
                         </a>
-                        <a href="#" class="menu-item">
+                        <a href="movimentacoes.php" class="menu-item">
                             <span>↕</span>
                             <span>Movimentações</span>
                         </a>
@@ -217,7 +217,7 @@ foreach (
                             <span>◎</span>
                             <span>Meu perfil</span>
                         </a>
-                        <a href="#" class="menu-item">
+                        <a href="#confirmar-saida" class="menu-item" aria-haspopup="dialog">
                             <span>↪</span>
                             <span>Sair</span>
                         </a>
@@ -751,6 +751,21 @@ foreach (
             </div>
         </main>
     </div>
+
+    <!-- Confirmação de saída: abre/fecha com âncora e CSS, sem JavaScript. -->
+    <div class="logout-modal" id="confirmar-saida" role="dialog" aria-modal="true" aria-labelledby="logout-modal-title">
+        <a class="logout-modal__backdrop" href="#" aria-label="Fechar confirmação de saída"></a>
+        <section class="logout-modal__dialog">
+            <p class="logout-modal__eyebrow">Tera Atacado</p>
+            <h2 class="logout-modal__title" id="logout-modal-title">Deseja sair do sistema?</h2>
+            <p class="logout-modal__text">Tem certeza de que deseja encerrar sua sessão agora?</p>
+            <div class="logout-modal__actions">
+                <a class="logout-modal__button logout-modal__cancel" href="#">Cancelar</a>
+                <a class="logout-modal__button logout-modal__confirm" href="index.php">Sair</a>
+            </div>
+        </section>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         window.dadosMovimentacoes = <?php

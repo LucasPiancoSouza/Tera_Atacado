@@ -1,0 +1,39 @@
+@import url("produtos.css");
+
+/* Ajustes próprios do histórico de movimentações. */
+.metric-grid--four {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.movement-table td:first-child {
+    min-width: 150px;
+    color: #687064;
+    font-variant-numeric: tabular-nums;
+}
+
+.movement-table time {
+    font-size: 11px;
+}
+
+.quantity-entry {
+    color: #3d7938 !important;
+}
+
+.quantity-exit {
+    color: #c96508 !important;
+}
+
+.movement-table td:nth-child(2) {
+    min-width: 150px;
+}
+
+.movement-table td:last-child {
+    min-width: 180px;
+    white-space: normal;
+}
+
+@media (max-width: 760px) {
+    .metric-grid--four {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
