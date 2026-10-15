@@ -83,7 +83,7 @@ input {
     flex-shrink: 0;
 
     width: clamp(150px, 25vh, 205px);
-    height: calc(var(--header-height) - 10px);
+    height: var(--header-height);
 
     object-fit: contain;
 }

@@ -174,7 +174,7 @@
             <p class="logout-modal__text">Tem certeza de que deseja encerrar sua sessão agora?</p>
             <div class="logout-modal__actions">
                 <a class="logout-modal__button logout-modal__cancel" href="#">Cancelar</a>
-                <a class="logout-modal__button logout-modal__confirm" href="index.php">Sair</a>
+                <a class="logout-modal__button logout-modal__confirm" href="logout.php">Sair</a>
             </div>
         </section>
     </div>
