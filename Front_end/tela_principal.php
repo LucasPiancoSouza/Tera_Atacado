@@ -180,22 +180,22 @@ foreach (
                             <span>▦</span>
                             <span>Produtos</span>
                         </a>
-                        <a href="#" class="menu-item">
+                        <a href="categoria.php" class="menu-item">
                             <span>▤</span>
                             <span>Categorias</span>
                         </a>
-                        <a href="#" class="menu-item">
+                        <a href="fornecedores.php" class="menu-item">
                             <span>▥</span>
                             <span>Fornecedores</span>
                         </a>
                     </div>
                     <div class="menu-section">
                         <h3>ESTOQUE</h3>
-                        <a href="#" class="menu-item">
+                        <a href="entrada.php" class="menu-item">
                             <span>＋</span>
                             <span>Entradas</span>
                         </a>
-                        <a href="#" class="menu-item">
+                        <a href="saida.php" class="menu-item">
                             <span>−</span>
                             <span>Saídas</span>
                         </a>
@@ -206,17 +206,13 @@ foreach (
                     </div>
                     <div class="menu-section">
                         <h3>GESTÃO</h3>
-                        <a href="#" class="menu-item">
+                        <a href="relatorio.php" class="menu-item">
                             <span>▥</span>
                             <span>Relatórios</span>
                         </a>
                     </div>
                     <div class="menu-section">
                         <h3>CONTA</h3>
-                        <a href="#" class="menu-item">
-                            <span>◎</span>
-                            <span>Meu perfil</span>
-                        </a>
                         <a href="#confirmar-saida" class="menu-item" aria-haspopup="dialog">
                             <span>↪</span>
                             <span>Sair</span>

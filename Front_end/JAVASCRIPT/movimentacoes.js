@@ -67,8 +67,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
     exportButton.addEventListener('click', downloadVisibleRows);
 
-    document.getElementById('metric-mov-total').textContent = rows.length;
-    document.getElementById('metric-mov-entries').textContent = rows.filter(row => row.dataset.type === 'entrada').length;
-    document.getElementById('metric-mov-exits').textContent = rows.filter(row => row.dataset.type === 'saida').length;
     applyFilters();
 });

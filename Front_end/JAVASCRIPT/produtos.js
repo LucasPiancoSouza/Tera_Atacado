@@ -72,9 +72,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     exportButton.addEventListener('click', downloadVisibleRows);
 
-    // As métricas refletem os registros demonstrativos desta página.
-    document.getElementById('metric-total').textContent = rows.length;
-    document.getElementById('metric-low').textContent = rows.filter(row => row.dataset.stock === 'low').length;
-    document.getElementById('metric-out').textContent = rows.filter(row => row.dataset.stock === 'out').length;
+    // As métricas são fornecidas pelo PHP; aqui são tratados apenas os filtros da tabela.
     applyFilters();
 });

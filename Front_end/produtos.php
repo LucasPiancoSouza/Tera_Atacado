@@ -23,35 +23,35 @@
         </p>
     </header>
     <div class="layout">
-        <aside class="sidebar">
+<aside class="sidebar">
             <div class="sidebar-header">
-                <nav aria-label="Menu principal">
+                <nav>
                     <div class="menu-section">
                         <h3>PRINCIPAL</h3>
-                        <a href="tela_principal.php" class="menu-item">
+                        <a href="tela_principal.php" class="menu-item active" aria-current="page">
                             <span>⌂</span>
                             <span>Dashboard</span>
                         </a>
-                        <a href="produtos.php" class="menu-item active" aria-current="page">
+                        <a href="produtos.php" class="menu-item">
                             <span>▦</span>
                             <span>Produtos</span>
                         </a>
-                        <a href="#" class="menu-item">
+                        <a href="categoria.php" class="menu-item">
                             <span>▤</span>
                             <span>Categorias</span>
                         </a>
-                        <a href="#" class="menu-item">
+                        <a href="fornecedores.php" class="menu-item">
                             <span>▥</span>
                             <span>Fornecedores</span>
                         </a>
                     </div>
                     <div class="menu-section">
                         <h3>ESTOQUE</h3>
-                        <a href="#" class="menu-item">
+                        <a href="entrada.php" class="menu-item">
                             <span>＋</span>
                             <span>Entradas</span>
                         </a>
-                        <a href="#" class="menu-item">
+                        <a href="saida.php" class="menu-item">
                             <span>−</span>
                             <span>Saídas</span>
                         </a>
@@ -62,17 +62,13 @@
                     </div>
                     <div class="menu-section">
                         <h3>GESTÃO</h3>
-                        <a href="#" class="menu-item">
+                        <a href="relatorio.php" class="menu-item">
                             <span>▥</span>
                             <span>Relatórios</span>
                         </a>
                     </div>
                     <div class="menu-section">
                         <h3>CONTA</h3>
-                        <a href="#" class="menu-item">
-                            <span>◎</span>
-                            <span>Meu perfil</span>
-                        </a>
                         <a href="#confirmar-saida" class="menu-item" aria-haspopup="dialog">
                             <span>↪</span>
                             <span>Sair</span>

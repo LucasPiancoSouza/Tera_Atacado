@@ -34,7 +34,7 @@ O Tera Atacado está sendo desenvolvido para apoiar o controle de produtos, forn
 
 2. Inicie os serviços:
 
-   ```bash
+   ```bashcker compose up -d
    docker compose up -d --build
    ```
 
