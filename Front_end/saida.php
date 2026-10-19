@@ -1,3 +1,27 @@
+<?php
+
+require_once __DIR__ . '/../Back_end/config/database.php';
+
+// Buscar produtos cadastrados
+$sqlProdutos = "SELECT id_produto, nome_produto
+                FROM produtos
+                ORDER BY nome_produto";
+
+$resultadoProdutos = $con->query($sqlProdutos);
+
+// Buscar locais de armazenamento
+$sqlLocalizacoes = "SELECT
+                        id_localizacao,
+                        setor,
+                        corredor,
+                        prateleira,
+                        andar
+                    FROM localizacao
+                    ORDER BY setor, corredor, prateleira, andar";
+
+$resultadoLocalizacoes = $con->query($sqlLocalizacoes);
+
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -80,17 +104,137 @@
 <div class="module-two-column">
     <section class="module-panel" aria-labelledby="exit-form-title">
         <div class="module-panel__header"><div><h2 id="exit-form-title">Dados da saída</h2><p>Informe a retirada que deseja</p></div></div>
-        <form id="exit-form" class="module-form">
-            <div class="module-form__grid">
-                <div class="module-field module-field--full"><label for="exit-product">Produto</label><select id="exit-product" name="produto" required><option value="arroz" data-stock="120">Arroz 5kg</option><option value="feijao" data-stock="34">Feijão 1kg</option><option value="cafe" data-stock="18">Café 500g</option><option value="agua" data-stock="310">Água mineral 1,5L</option><option value="leite" data-stock="0">Leite 1L</option></select></div>
-                <div class="module-field"><label for="exit-quantity">Quantidade retirada</label><input type="number" id="exit-quantity" name="quantidade" min="1" step="1" value="10" required></div>
-                <div class="module-field"><label for="exit-date">Data da saída</label><input type="date" id="exit-date" name="data" required></div>
-                <div class="module-field module-field--full"><label for="exit-reason">Motivo</label><select id="exit-reason" name="motivo" required><option value="venda">Venda</option><option value="avaria">Avaria</option><option value="consumo">Uso interno</option><option value="ajuste">Ajuste de estoque</option><option value="outro">Outro</option></select></div>
-                <div class="module-field module-field--full"><label for="exit-observation">Observação <span class="field-optional">(opcional)</span></label><textarea id="exit-observation" name="observacao" rows="3" maxlength="500" placeholder="Detalhes adicionais sobre a saída"></textarea></div>
-            </div>
-            <div class="module-form__footer"><p class="module-help">Prévia demonstrativa. A operação ainda não está conectada ao banco de dados.</p><div class="module-actions"><button class="module-button module-button--secondary" type="reset">Limpar</button><button class="module-button module-button--primary" type="submit">Registrar saída</button></div></div>
-            <p class="module-feedback" id="exit-feedback" role="status" hidden></p>
-        </form>
+        <form id="exit-form"
+      class="module-form"
+      method="POST"
+      action="../Back_end/processamentos/registrar_saida.php">
+
+    <div class="module-form__grid">
+
+        <!-- Produto -->
+        <div class="module-field module-field--full">
+            <label for="exit-product">Produto</label>
+
+            <select id="exit-product"
+                    name="id_produto"
+                    required>
+
+                <option value="" selected disabled>
+                    Selecione um produto
+                </option>
+
+                <?php while ($produto = $resultadoProdutos->fetch_assoc()): ?>
+                    <option value="<?= (int) $produto['id_produto'] ?>">
+                        <?= htmlspecialchars(
+                            $produto['nome_produto'],
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>
+                    </option>
+                <?php endwhile; ?>
+
+            </select>
+        </div>
+
+        <!-- Local de armazenamento -->
+        <div class="module-field module-field--full">
+            <label for="exit-location">Local de armazenamento</label>
+
+            <select id="exit-location"
+                    name="id_localizacao"
+                    required>
+
+                <option value="" selected disabled>
+                    Selecione de onde o produto será retirado
+                </option>
+
+                <?php while ($local = $resultadoLocalizacoes->fetch_assoc()): ?>
+                    <option value="<?= (int) $local['id_localizacao'] ?>">
+                        <?= htmlspecialchars(
+                            $local['setor'],
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>
+                        — Corredor <?= (int) $local['corredor'] ?>
+                        — Prateleira <?= (int) $local['prateleira'] ?>
+                        — Andar <?= (int) $local['andar'] ?>
+                    </option>
+                <?php endwhile; ?>
+
+            </select>
+        </div>
+
+        <!-- Quantidade -->
+        <div class="module-field">
+            <label for="exit-quantity">Quantidade retirada</label>
+
+            <input type="number"
+                   id="exit-quantity"
+                   name="quantidade"
+                   min="1"
+                   step="1"
+                   required>
+        </div>
+
+        <!-- Motivo -->
+        <div class="module-field module-field--full">
+            <label for="exit-reason">Motivo da saída</label>
+
+            <select id="exit-reason"
+                    name="motivo"
+                    required>
+
+                <option value="" selected disabled>
+                    Selecione o motivo
+                </option>
+
+                <option value="Venda">Venda</option>
+                <option value="Avaria">Avaria</option>
+                <option value="Uso interno">Uso interno</option>
+                <option value="Ajuste de estoque">Ajuste de estoque</option>
+                <option value="Outro">Outro</option>
+
+            </select>
+        </div>
+
+        <!-- Observação -->
+        <div class="module-field module-field--full">
+            <label for="exit-observation">
+                Observação
+                <span class="field-optional">(opcional)</span>
+            </label>
+
+            <textarea id="exit-observation"
+                      name="observacao"
+                      rows="3"
+                      maxlength="500"
+                      placeholder="Detalhes adicionais sobre a saída"></textarea>
+        </div>
+
+    </div>
+
+    <div class="module-form__footer">
+        <div class="module-actions">
+
+            <button class="module-button module-button--secondary"
+                    type="reset">
+                Limpar
+            </button>
+
+            <button class="module-button module-button--primary"
+                    type="submit">
+                Registrar saída
+            </button>
+
+        </div>
+    </div>
+
+    <p class="module-feedback"
+       id="exit-feedback"
+       role="status"
+       hidden></p>
+
+</form>
     </section>
     <aside class="module-panel module-preview" aria-labelledby="exit-preview-title">
         <div class="module-panel__header"><div><h2 id="exit-preview-title">Resumo da operação</h2><p>Confira o saldo antes de integrar o salvamento.</p></div></div>
@@ -117,6 +261,19 @@
             <a class="logout-modal__button logout-modal__confirm" href="logout.php">Sair</a>
         </div>
     </section>
+</div>
+<div id="popup-sucesso"
+     class="popup-sucesso"
+     role="status"
+     aria-live="polite">
+
+    <div class="popup-icone">✓</div>
+
+    <div>
+        <strong>Saída realizada!</strong>
+        <p>O estoque foi atualizado com sucesso.</p>
+    </div>
+
 </div>
 <script src="JAVASCRIPT/saidas.js" defer></script>
 </body>

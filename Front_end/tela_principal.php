@@ -453,9 +453,9 @@ foreach (
                     <span class="card-title3">Produtos de estoque baixo</span>
 
                     <span class="card-description2">Itens que precisam de reposição</span>
-
-                    <button class="button">Ver todos</button>
-
+                    <a href="produtos.php">
+                        <button class="button">Ver todos</button>
+                    </a>
 
 
         <div class="stock-list">
@@ -658,25 +658,28 @@ foreach (
                                 Atividades recentes
                             </span>
                         </div>
-                        <button class="moviment-button">
-
-                            Ver histórico
-                        </button>
+                        <a href="movimentacoes.php">
+                            <button class="moviment-button">
+                                Ver histórico
+                            </button>
+                        </a>
                     </div>
                     <div class="moviment-list">
     <?php
 
     $sqlUltimasMovimentacoes = "
-        SELECT
-            p.nome_produto,
-            m.tipo_modificacao,
-            m.quantidade,
-            m.data_hora_movimentacao
-        FROM movimentacoes m
-        INNER JOIN produtos p
-            ON m.id_produto = p.id_produto
-        ORDER BY m.data_hora_movimentacao DESC
-        LIMIT 5
+       SELECT
+    p.nome_produto,
+    m.tipo_modificacao,
+    m.quantidade,
+    m.data_hora_movimentacao
+FROM movimentacoes m
+INNER JOIN localizacao_produto lp
+    ON m.id_localizacao_produto = lp.id_localizacao_produto
+INNER JOIN produtos p
+    ON lp.id_produto = p.id_produto
+ORDER BY m.data_hora_movimentacao DESC
+LIMIT 5;
     ";
 
     $stmtUltimasMovimentacoes = mysqli_prepare(

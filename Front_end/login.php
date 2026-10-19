@@ -8,7 +8,7 @@ $senha = $_POST['senha'] ?? '';
 
 $stmt = mysqli_prepare(
     $con,
-    'SELECT senha, tipo_usuario FROM usuarios WHERE cpf = ? LIMIT 1'
+    'SELECT id_usuario, senha, tipo_usuario FROM usuarios WHERE cpf = ? LIMIT 1'
 );
 
 mysqli_stmt_bind_param($stmt, 's', $cpf);
@@ -24,8 +24,14 @@ if (!$usuario || $senha !== $usuario['senha']) {
     exit;
     }
     
-    $_SESSION['logado'] = true;
-    $_SESSION['erro_login'] = false ;
+   $_SESSION['logado'] = true;
+$_SESSION['erro_login'] = false;
+
+// Guarda o ID para todos os tipos de usuário.
+$_SESSION['id_usuario'] = (int) $usuario['id_usuario'];
+
+// Mantém a variável antiga caso outras partes do projeto a utilizem.
+$_SESSION['id'] = (int) $usuario['id_usuario'];
 
 if ($usuario['tipo_usuario'] === '1') {
     $_SESSION['tipo_usuario'] = '1';
