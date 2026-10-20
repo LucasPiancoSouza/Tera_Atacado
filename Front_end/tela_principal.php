@@ -244,16 +244,8 @@ foreach (
 
                         );
                         mysqli_stmt_execute($stmtContagemProdutos);
-                        $resultadoContagemProdutos = mysqli_stmt_get_result(
-
-                            $stmtContagemProdutos
-
-                        );
-                        $registroContagemProdutos = mysqli_fetch_assoc(
-
-                            $resultadoContagemProdutos
-
-                        );
+                        $resultadoContagemProdutos = mysqli_stmt_get_result($stmtContagemProdutos);
+                        $registroContagemProdutos = mysqli_fetch_assoc($resultadoContagemProdutos);
                         $totalProdutosCadastrados = (int) (
 
                             $registroContagemProdutos['total_produtos'] ?? 0

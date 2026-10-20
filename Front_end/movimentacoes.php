@@ -1,3 +1,8 @@
+<?php
+session_start();
+require_once __DIR__ . '/../Back_end/config/database.php';
+
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -90,20 +95,66 @@
             <section class="metric-grid metric-grid--four" aria-label="Resumo das movimentações">
                 <article class="metric-card">
                     <span class="metric-card__label">Movimentações listadas</span>
-                    <strong class="metric-card__value" id="metric-mov-total">8</strong>
-                    <span class="metric-card__foot">Registros demonstrativos</span>
+                    <strong class="metric-card__value" id="metric-mov-total">
+                        <?php  
+                            $sql ="Select * from movimentacoes";
+                            $stmt = mysqli_prepare($con, $sql);
+                            mysqli_stmt_execute($stmt);
+                            $resultado_movimentacoes = mysqli_stmt_get_result($stmt);
+                            $num_linhas = mysqli_num_rows($resultado_movimentacoes);
+                            echo $num_linhas;
+                        ?>
+                    </strong>
                     <span class="metric-card__icon metric-card__icon--green" aria-hidden="true">↕</span>
                 </article>
                 <article class="metric-card">
                     <span class="metric-card__label">Entradas</span>
-                    <strong class="metric-card__value" id="metric-mov-entries">5</strong>
-                    <span class="metric-card__foot">Unidades recebidas: 290</span>
+                    <strong class="metric-card__value" id="metric-mov-entries">
+                        <?php  
+                            $sql ="Select * from movimentacoes where tipo_modificacao = 1";
+                            $stmt = mysqli_prepare($con, $sql);
+                            mysqli_stmt_execute($stmt);
+                            $resultado_movimentacoes = mysqli_stmt_get_result($stmt);
+                            $num_linhas = mysqli_num_rows($resultado_movimentacoes);
+                            echo $num_linhas;
+                        ?>
+                    </strong>
+                    <span class="metric-card__foot">
+                        <?php  
+                            $sql ="Select SUM(quantidade) as Total from movimentacoes where tipo_modificacao = 1";
+                            $stmt = mysqli_prepare($con, $sql);
+                            mysqli_stmt_execute($stmt); // retorna um objeto de resultado
+                            $resultado_movimentacoes = mysqli_stmt_get_result($stmt);
+                            $linha = mysqli_fetch_assoc($resultado_movimentacoes);
+                            $resultado = $linha["Total"];
+                            echo "Unidades Entradas: ".$resultado;
+                        ?>
+                    </span>
                     <span class="metric-card__icon metric-card__icon--green" aria-hidden="true">＋</span>
                 </article>
                 <article class="metric-card">
                     <span class="metric-card__label">Saídas</span>
-                    <strong class="metric-card__value" id="metric-mov-exits">3</strong>
-                    <span class="metric-card__foot">Unidades retiradas: 34</span>
+                    <strong class="metric-card__value" id="metric-mov-exits">
+                        <?php  
+                            $sql ="Select * from movimentacoes where tipo_modificacao = 0";
+                            $stmt = mysqli_prepare($con, $sql);
+                            mysqli_stmt_execute($stmt);
+                            $resultado_movimentacoes = mysqli_stmt_get_result($stmt);
+                            $num_linhas = mysqli_num_rows($resultado_movimentacoes);
+                            echo $num_linhas;
+                        ?>
+                    </strong>
+                    <span class="metric-card__foot">
+                         <?php  
+                            $sql ="Select SUM(quantidade) as Total from movimentacoes where tipo_modificacao = 0";
+                            $stmt = mysqli_prepare($con, $sql);
+                            mysqli_stmt_execute($stmt); // retorna um objeto de resultado
+                            $resultado_movimentacoes = mysqli_stmt_get_result($stmt);
+                            $linha = mysqli_fetch_assoc($resultado_movimentacoes);
+                            $resultado = $linha["Total"];
+                            echo "Unidades Retiradas: ".$resultado;
+                        ?>
+                    </span>
                     <span class="metric-card__icon metric-card__icon--orange" aria-hidden="true">−</span>
                 </article>
             </section>
@@ -146,14 +197,80 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-type="entrada"><td><time datetime="2026-10-15T14:32">15/10/2026 · 14:32</time></td><td><strong>Arroz 5kg</strong></td><td><span class="status-pill status-pill--ok">Entrada</span></td><td class="numeric-cell quantity-entry">+50 un.</td><td>Operador demo</td><td>Reposição de estoque</td></tr>
-                            <tr data-type="saida"><td><time datetime="2026-10-15T13:18">15/10/2026 · 13:18</time></td><td><strong>Feijão 1kg</strong></td><td><span class="status-pill status-pill--low">Saída</span></td><td class="numeric-cell quantity-exit">−10 un.</td><td>Operador demo</td><td>Separação de pedido</td></tr>
-                            <tr data-type="entrada"><td><time datetime="2026-10-14T16:44">14/10/2026 · 16:44</time></td><td><strong>Macarrão 500g</strong></td><td><span class="status-pill status-pill--ok">Entrada</span></td><td class="numeric-cell quantity-entry">+100 un.</td><td>Operador demo</td><td>Recebimento de mercadoria</td></tr>
-                            <tr data-type="saida"><td><time datetime="2026-10-14T10:20">14/10/2026 · 10:20</time></td><td><strong>Café 500g</strong></td><td><span class="status-pill status-pill--low">Saída</span></td><td class="numeric-cell quantity-exit">−12 un.</td><td>Operador demo</td><td>Separação de pedido</td></tr>
-                            <tr data-type="entrada"><td><time datetime="2026-10-13T15:05">13/10/2026 · 15:05</time></td><td><strong>Leite 1L</strong></td><td><span class="status-pill status-pill--ok">Entrada</span></td><td class="numeric-cell quantity-entry">+80 un.</td><td>Operador demo</td><td>Reposição de estoque</td></tr>
-                            <tr data-type="entrada"><td><time datetime="2026-10-13T11:40">13/10/2026 · 11:40</time></td><td><strong>Água mineral 1,5L</strong></td><td><span class="status-pill status-pill--ok">Entrada</span></td><td class="numeric-cell quantity-entry">+30 un.</td><td>Operador demo</td><td>Recebimento de mercadoria</td></tr>
-                            <tr data-type="saida"><td><time datetime="2026-10-12T09:25">12/10/2026 · 09:25</time></td><td><strong>Detergente 500ml</strong></td><td><span class="status-pill status-pill--low">Saída</span></td><td class="numeric-cell quantity-exit">−12 un.</td><td>Operador demo</td><td>Separação de pedido</td></tr>
-                            <tr data-type="entrada"><td><time datetime="2026-10-11T17:03">11/10/2026 · 17:03</time></td><td><strong>Farinha de trigo</strong></td><td><span class="status-pill status-pill--ok">Entrada</span></td><td class="numeric-cell quantity-entry">+30 un.</td><td>Operador demo</td><td>Reposição de estoque</td></tr>
+                            <?php
+                            $sql = "SELECT
+                                        m.data_hora_movimentacao,
+                                        p.nome_produto,
+                                        m.tipo_modificacao,
+                                        m.quantidade,
+                                        u.nome_usuario,
+                                        m.observacao
+                                    FROM movimentacoes m
+                                    INNER JOIN localizacao_produto lp
+                                        ON m.id_localizacao_produto = lp.id_localizacao_produto
+                                    INNER JOIN produtos p
+                                        ON lp.id_produto = p.id_produto
+                                    INNER JOIN usuarios u
+                                        ON m.id_usuario = u.id_usuario
+                                    ORDER BY m.data_hora_movimentacao DESC";                             $stmt = mysqli_prepare($con, $sql);
+                             mysqli_stmt_execute($stmt);
+                             $resultado = mysqli_stmt_get_result($stmt);
+                          ?>
+                            <?php while($linha = mysqli_fetch_assoc($resultado)): ?>
+                            <?php
+                                $Verificando_Entrada = (int) $linha['tipo_modificacao'] === 1;
+
+                                $timestamp = strtotime($linha['data_hora_movimentacao']);
+
+                                $dataFormatada = $timestamp
+                                    ? date('d/m/Y', $timestamp) . ' · ' . date('H:i', $timestamp)
+                                    : 'Data indisponível';
+
+                                $dataIso = $timestamp
+                                    ? date('Y-m-d\TH:i:s', $timestamp)
+                                    : '';
+                                ?>
+
+                                <tr data-type="<?= $Verificando_Entrada ? 'entrada' : 'saida' ?>">
+
+                                    <!-- Data e hora -->
+                                    <td>
+                                        <time datetime="<?= htmlspecialchars($dataIso, ENT_QUOTES, 'UTF-8') ?>">
+                                            <?= htmlspecialchars($dataFormatada, ENT_QUOTES, 'UTF-8') ?>
+                                        </time>
+                                    </td>
+
+                                    <!-- Produto -->
+                                    <td>
+                                        <strong>
+                                            <?= htmlspecialchars($linha['nome_produto'], ENT_QUOTES, 'UTF-8') ?>
+                                        </strong>
+                                    </td>
+
+                                    <!-- Tipo de movimentação -->
+                                    <td>
+                                        <span class="status-pill <?= $Verificando_Entrada ? 'status-pill--ok' : 'status-pill--low' ?>">
+                                            <?= $Verificando_Entrada ? 'Entrada' : 'Saída' ?>
+                                        </span>
+                                    </td>
+
+                                    <!-- Quantidade -->
+                                    <td class="numeric-cell <?= $Verificando_Entrada ? 'quantity-entry' : 'quantity-exit' ?>">
+                                        <?= $Verificando_Entrada ? '+' : '−' ?><?= (int) $linha['quantidade'] ?> un.
+                                    </td>
+
+                                    <!-- Usuário -->
+                                    <td>
+                                        <?= htmlspecialchars($linha['nome_usuario'], ENT_QUOTES, 'UTF-8') ?>
+                                    </td>
+
+                                    <!-- Observação -->
+                                    <td>
+                                        <?= htmlspecialchars($linha['observacao'] ?? '—', ENT_QUOTES, 'UTF-8') ?>
+                                    </td>
+
+                                </tr>
+                            <?php endwhile; ?>
                         </tbody>
                     </table>
                     <p class="empty-state" id="movements-empty" hidden>Nenhuma movimentação corresponde aos filtros selecionados.</p>
