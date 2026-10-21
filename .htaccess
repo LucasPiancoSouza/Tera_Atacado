@@ -39,7 +39,7 @@ RewriteEngine On
 # ==========================================
 
 # Bloquear o Back_end, exceto o processamento de entrada
-RewriteRule ^Back_end/(?!processamentos/(?:registrar_entrada|consultar_estoque|registrar_saida)\.php$).* - [F,L]
+RewriteRule ^Back_end/(?!processamentos/(?:registrar_entrada|consultar_estoque|registrar_saida|cadastro_produto)\.php$).* - [F,L]
 
 # Bloquear as demais pastas internas
 RewriteRule ^Database(?:/|$) - [F,L]

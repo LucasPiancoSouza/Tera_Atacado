@@ -220,53 +220,58 @@ require_once __DIR__ . '/../Back_end/config/database.php';
                             <?php
                                 $Verificando_Entrada = (int) $linha['tipo_modificacao'] === 1;
 
-                                $timestamp = strtotime($linha['data_hora_movimentacao']);
+                                $dataBanco = new DateTimeImmutable(
+                                $linha['data_hora_movimentacao'],
+                                new DateTimeZone('UTC')
+                            );
 
-                                $dataFormatada = $timestamp
-                                    ? date('d/m/Y', $timestamp) . ' · ' . date('H:i', $timestamp)
-                                    : 'Data indisponível';
+                            $dataLocal = $dataBanco->setTimezone(
+                                new DateTimeZone('America/Sao_Paulo')
+                            );
 
-                                $dataIso = $timestamp
-                                    ? date('Y-m-d\TH:i:s', $timestamp)
-                                    : '';
+                            $dataFormatada = $dataLocal->format('d/m/Y')
+                                . ' · '
+                                . $dataLocal->format('H:i');
+
+                            $dataIso = $dataLocal->format('Y-m-d\TH:i:sP');
                                 ?>
 
-                                <tr data-type="<?= $Verificando_Entrada ? 'entrada' : 'saida' ?>">
+                                <tr data-type="<?php echo $Verificando_Entrada ? 'entrada' : 'saida' ?>">
 
                                     <!-- Data e hora -->
                                     <td>
-                                        <time datetime="<?= htmlspecialchars($dataIso, ENT_QUOTES, 'UTF-8') ?>">
-                                            <?= htmlspecialchars($dataFormatada, ENT_QUOTES, 'UTF-8') ?>
+                                        <time datetime="<?php echo htmlspecialchars($dataIso, ENT_QUOTES, 'UTF-8') ?>">
+                                            <?php echo htmlspecialchars($dataFormatada, ENT_QUOTES, 'UTF-8') ?>
                                         </time>
                                     </td>
 
                                     <!-- Produto -->
                                     <td>
                                         <strong>
-                                            <?= htmlspecialchars($linha['nome_produto'], ENT_QUOTES, 'UTF-8') ?>
+                                            <?php echo htmlspecialchars($linha['nome_produto'], ENT_QUOTES, 'UTF-8') ?>
                                         </strong>
                                     </td>
 
                                     <!-- Tipo de movimentação -->
                                     <td>
-                                        <span class="status-pill <?= $Verificando_Entrada ? 'status-pill--ok' : 'status-pill--low' ?>">
-                                            <?= $Verificando_Entrada ? 'Entrada' : 'Saída' ?>
+                                        <span class="status-pill <?php echo $Verificando_Entrada ? 'status-pill--ok' : 'status-pill--low' ?>">
+                                            <?php echo $Verificando_Entrada ? 'Entrada' : 'Saída' ?>
                                         </span>
                                     </td>
 
                                     <!-- Quantidade -->
-                                    <td class="numeric-cell <?= $Verificando_Entrada ? 'quantity-entry' : 'quantity-exit' ?>">
-                                        <?= $Verificando_Entrada ? '+' : '−' ?><?= (int) $linha['quantidade'] ?> un.
+                                    <td class="numeric-cell <?php echo $Verificando_Entrada ? 'quantity-entry' : 'quantity-exit' ?>">
+                                        <?php echo $Verificando_Entrada ? '+' : '−' ?><?php echo (int) $linha['quantidade'] ?> un.
                                     </td>
 
                                     <!-- Usuário -->
                                     <td>
-                                        <?= htmlspecialchars($linha['nome_usuario'], ENT_QUOTES, 'UTF-8') ?>
+                                        <?php echo htmlspecialchars($linha['nome_usuario'], ENT_QUOTES, 'UTF-8') ?>
                                     </td>
 
                                     <!-- Observação -->
                                     <td>
-                                        <?= htmlspecialchars($linha['observacao'] ?? '—', ENT_QUOTES, 'UTF-8') ?>
+                                        <?php echo htmlspecialchars($linha['observacao'] ?? '—', ENT_QUOTES, 'UTF-8') ?>
                                     </td>
 
                                 </tr>

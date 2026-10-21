@@ -124,8 +124,8 @@ $resultadoLocalizacoes = $con->query($sqlLocalizacoes);
                 </option>
 
                 <?php while ($produto = $resultadoProdutos->fetch_assoc()): ?>
-                    <option value="<?= (int) $produto['id_produto'] ?>">
-                        <?= htmlspecialchars(
+                    <option value="<?php echo (int) $produto['id_produto'] ?>">
+                        <?php echo htmlspecialchars(
                             $produto['nome_produto'],
                             ENT_QUOTES,
                             'UTF-8'
@@ -149,15 +149,15 @@ $resultadoLocalizacoes = $con->query($sqlLocalizacoes);
                 </option>
 
                 <?php while ($local = $resultadoLocalizacoes->fetch_assoc()): ?>
-                    <option value="<?= (int) $local['id_localizacao'] ?>">
-                        <?= htmlspecialchars(
+                    <option value="<?php echo (int) $local['id_localizacao'] ?>">
+                        <?php echo htmlspecialchars(
                             $local['setor'],
                             ENT_QUOTES,
                             'UTF-8'
                         ) ?>
-                        — Corredor <?= (int) $local['corredor'] ?>
-                        — Prateleira <?= (int) $local['prateleira'] ?>
-                        — Andar <?= (int) $local['andar'] ?>
+                        — Corredor <?php echo (int) $local['corredor'] ?>
+                        — Prateleira <?php echo (int) $local['prateleira'] ?>
+                        — Andar <?php echo (int) $local['andar'] ?>
                     </option>
                 <?php endwhile; ?>
 

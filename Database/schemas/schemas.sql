@@ -14,7 +14,11 @@ CREATE TABLE fornecedores (
     empresa VARCHAR(100) NOT NULL,
     cnpj VARCHAR(18) NOT NULL unique,
     telefone VARCHAR(15) NOT NULL,
-    email VARCHAR(100) NOT NULL
+    email VARCHAR(100) NOT NULL,
+    cep varchar(8) not null,
+    estado varchar(100) not null,
+    cidade varchar(100) not null,
+    rua_numero varchar(255) not null
 );
 
 CREATE TABLE categorias (
@@ -42,7 +46,8 @@ CREATE TABLE produtos (
     id_fornecedor INT NOT NULL,
     id_categoria INT NOT NULL,
     codigo_de_barras VARCHAR(128) NOT NULL UNIQUE,
-
+	estoque_minimo int not null,
+    
     FOREIGN KEY (id_fornecedor)
         REFERENCES fornecedores(id_fornecedor),
 
