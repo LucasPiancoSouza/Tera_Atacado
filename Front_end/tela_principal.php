@@ -327,12 +327,14 @@ foreach (
                             SELECT
                                 p.id_produto,
                                 p.nome_produto,
-                                SUM(lp.quantidade_produto) AS total_estoque
+                                SUM(lp.quantidade_produto) AS total_estoque,
+                                p.estoque_minimo
                             FROM produtos p
                             INNER JOIN localizacao_produto lp
                                 ON p.id_produto = lp.id_produto
                             GROUP BY p.id_produto, p.nome_produto
-                            HAVING SUM(lp.quantidade_produto) < 40 and SUM(lp.quantidade_produto) > 0
+                            HAVING SUM(lp.quantidade_produto) < p.estoque_minimo 
+                            and SUM(lp.quantidade_produto) > 0
                         ";
                         $stmtProdutosEstoqueBaixo = mysqli_prepare(
                             $con,
@@ -355,7 +357,7 @@ foreach (
 
                     if (
                         $totalProdutosCadastrados > 0
-                        && ($quantidadeProdutosEstoqueBaixo / $totalProdutosCadastrados) * 100 >= 50
+                        && ($quantidadeProdutosEstoqueBaixo / $totalProdutosCadastrados) * 100 >= 40
                     ):
 
                     ?>
@@ -441,16 +443,15 @@ foreach (
                 </div>
 
                 <div class="card-stock">
+                    <div class="stock-header">
+                        <div class="stock-header__copy">
+                            <span class="card-title3">Produtos de estoque baixo</span>
+                            <span class="card-description2">Itens que precisam de reposição</span>
+                        </div>
+                        <a href="produtos.php" class="button">Ver todos</a>
+                    </div>
 
-                    <span class="card-title3">Produtos de estoque baixo</span>
-
-                    <span class="card-description2">Itens que precisam de reposição</span>
-                    <a href="produtos.php">
-                        <button class="button">Ver todos</button>
-                    </a>
-
-
-        <div class="stock-list">
+                    <div class="stock-list">
 
             <?php
 

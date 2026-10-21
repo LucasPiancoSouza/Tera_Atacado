@@ -1,8 +1,4 @@
-/* ========================================================
-   TELAS ADICIONAIS — TERA ATACADO
-   Complementa CSS/tela_principal.css sem redefinir header/aside.
-   Tipografia: Poppins (títulos) + Inter (interface).
-   ======================================================== */
+/* COMPONENTES COMPARTILHADOS DAS TELAS INTERNAS - TERA ATACADO */
 
 .module-main {
     color: var(--text, #20251f);
@@ -63,8 +59,7 @@
 }
 
 .module-button:focus-visible,
-.icon-button:focus-visible,
-.report-type-card:focus-visible {
+.icon-button:focus-visible {
     outline: 3px solid rgba(85, 134, 71, .25);
     outline-offset: 2px;
 }
@@ -545,94 +540,7 @@
     color: #7f603f;
 }
 
-.report-type-grid {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 12px;
-    margin-bottom: 22px;
-}
-
-.report-type-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    min-width: 0;
-    min-height: 168px;
-    padding: 16px;
-    border: 1px solid #e2e8de;
-    border-radius: 12px;
-    background: #fff;
-    color: #29312b;
-    text-align: left;
-    cursor: pointer;
-    transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
-}
-
-.report-type-card:hover {
-    border-color: #afc8a5;
-    background: #fbfdf9;
-}
-
-.report-type-card.is-selected {
-    border-color: #558647;
-    background: #f4f8f1;
-    box-shadow: inset 0 0 0 1px #558647;
-}
-
-.report-type-card__icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    margin-bottom: 13px;
-    border-radius: 9px;
-    background: #e8f0e6;
-    color: #355f35;
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.report-type-card:nth-child(3) .report-type-card__icon,
-.report-type-card:nth-child(4) .report-type-card__icon {
-    background: #fff0e5;
-    color: #b65c11;
-}
-
-.report-type-card__title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 1.35;
-}
-
-.report-type-card__description {
-    margin-top: 6px;
-    color: #747b72;
-    font-size: 11px;
-    line-height: 1.5;
-}
-
-.report-type-card__select {
-    margin-top: auto;
-    padding-top: 12px;
-    color: #558647;
-    font-size: 10px;
-    font-weight: 700;
-}
-
-.report-type-card:not(.is-selected) .report-type-card__select {
-    color: #8a9187;
-}
-
-#report-results {
-    scroll-margin-top: 18px;
-}
-
 @media (max-width: 1200px) {
-    .report-type-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
 
     .module-form__grid--three {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -653,9 +561,6 @@
         position: static;
     }
 
-    .report-type-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
 }
 
 @media (max-width: 620px) {
@@ -692,13 +597,7 @@
         flex: 1;
     }
 
-    .report-type-grid {
-        grid-template-columns: minmax(0, 1fr);
-    }
 
-    .report-type-card {
-        min-height: 130px;
-    }
 
     .module-heading>.module-button {
         align-self: stretch;
@@ -713,109 +612,5 @@
     .module-field input,
     .module-field select,
     .module-field textarea,
-    .report-type-card {
-        transition: none;
-    }
 }
 
-@media print {
-    body {
-        height: auto;
-        min-height: 0;
-        overflow: visible;
-        background: #fff;
-    }
-
-    .header,
-    .sidebar,
-    .module-heading,
-    .report-type-grid,
-    #report-filter-title,
-    #report-form,
-    .module-panel__badge,
-    .logout-modal {
-        display: none !important;
-    }
-
-    .layout {
-        position: static;
-        display: block;
-        width: auto;
-        height: auto;
-        overflow: visible;
-    }
-
-    .layout>main {
-        width: auto;
-        height: auto;
-        margin: 0;
-        padding: 0;
-        overflow: visible;
-    }
-
-    #report-results {
-        display: block !important;
-        border: 0;
-        box-shadow: none;
-        padding: 0;
-    }
-}
-.popup-sucesso {
-    position: fixed;
-    top: 24px;
-    right: 24px;
-    z-index: 9999;
-
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    padding: 18px 22px;
-    background: #ffffff;
-    color: #284522;
-    border-left: 5px solid #558647;
-    border-radius: 10px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-12px);
-
-    transition:
-        opacity 0.3s ease,
-        transform 0.3s ease,
-        visibility 0.3s ease;
-}
-
-.popup-sucesso.mostrar {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.popup-icone {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
-
-    background: #558647;
-    color: #ffffff;
-    border-radius: 50%;
-
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.popup-sucesso strong {
-    display: block;
-    margin-bottom: 4px;
-}
-
-.popup-sucesso p {
-    margin: 0;
-    font-size: 14px;
-}

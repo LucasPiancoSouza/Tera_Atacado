@@ -501,34 +501,49 @@ select:focus {
 .card-title3 {
     display: block;
 
-    margin-top: 3vh;
-    margin-left: 2vh;
+    margin: 0;
 
     color: #000000;
-    font-size: 2.2vh;
+    font-size: clamp(15px, 1.7vw, 20px);
     font-weight: 600;
+    line-height: 1.3;
 }
 
 .card-description2 {
     display: block;
 
-    margin-top: 0.5vh;
-    margin-left: 2vh;
+    margin: 6px 0 0;
 
     color: var(--light-gray);
-    font-size: 2vh;
+    font-size: clamp(12px, 1.2vw, 14px);
+    line-height: 1.4;
 }
 
-/* Botão Ver todos */
+/* Cabeçalho e botão do card de estoque baixo */
+.stock-header {
+    position: relative;
+    padding: 20px 20px 0;
+}
+
+.stock-header__copy {
+    min-width: 0;
+    padding-right: calc(11vh + 12px);
+}
+
 .button {
-    align-self: flex-end;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
 
     width: 11vh;
     height: 6vh;
-
-    margin-top: -5vh;
-    margin-right: 30px;
+    margin: 0;
+    box-sizing: border-box;
 
     border: 1px solid #94989e;
     border-radius: 1vh;
@@ -538,6 +553,8 @@ select:focus {
 
     font-size: 2vh;
     cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
 
     transition:
         background-color 0.2s ease,
@@ -554,7 +571,7 @@ select:focus {
     flex-direction: column;
 
     gap: 22px;
-    margin-top: 30px;
+    margin-top: 20px;
     padding-right: 8px;
 
     max-height: 190px;
