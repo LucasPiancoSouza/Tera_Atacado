@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
+
 // Isso evita que alguém abra diretamente o 
 // endereço do processamento pelo navegador
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -90,4 +92,5 @@ try {
     header("Location: ../../Front_end/entrada.php?erro=registro");
     exit;
 }
+
 ?>

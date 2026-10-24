@@ -1,3 +1,11 @@
+<?php
+require_once __DIR__ . '/../Back_end/config/database.php';
+
+                    $sql = "Select * from fornecedores";                             
+                    $stmt = mysqli_prepare($con, $sql);
+                    mysqli_stmt_execute($stmt);
+                    $resultado = mysqli_stmt_get_result($stmt);
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -83,12 +91,33 @@
     <div class="module-toolbar"><label class="module-search" for="supplier-search"><span aria-hidden="true">⌕</span><input type="search" id="supplier-search" placeholder="Buscar por nome, empresa, CNPJ ou e-mail..." autocomplete="off"></label></div>
     <div class="module-table-wrap">
         <table class="module-table module-table--wide" id="suppliers-table">
-            <thead><tr><th scope="col">Fornecedor</th><th scope="col">Empresa</th><th scope="col">CNPJ</th><th scope="col">Telefone</th><th scope="col">E-mail</th><th scope="col">Produtos</th><th scope="col">Ações</th></tr></thead>
+            <thead><tr>
+                <th scope="col">Fornecedor</th>
+                <th scope="col">Empresa</th>
+                <th scope="col">CNPJ</th>
+                <th scope="col">Telefone</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">CEP</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Cidade</th>
+                <th scope="col">Logradouro</th>
+            </tr>
+        </thead>
             <tbody>
-                <tr><td><strong>Distribuidora Boa Compra</strong></td><td>Boa Compra Ltda.</td><td>12.345.678/0001-90</td><td>(11) 3333-1000</td><td>contato@boacompra.com</td><td>3</td><td><div class="module-actions"><button class="icon-button" type="button" data-action="view-supplier" aria-label="Ver Distribuidora Boa Compra" title="Visualizar">ⓘ</button><button class="icon-button" type="button" data-action="edit-supplier" aria-label="Editar Distribuidora Boa Compra" title="Editar">✎</button><button class="icon-button icon-button--danger" type="button" data-action="delete-supplier" aria-label="Excluir Distribuidora Boa Compra" title="Excluir">×</button></div></td></tr>
-                <tr><td><strong>Mercantil Paulista</strong></td><td>Mercantil Paulista S.A.</td><td>23.456.789/0001-10</td><td>(11) 3333-2000</td><td>vendas@mercantil.com</td><td>3</td><td><div class="module-actions"><button class="icon-button" type="button" data-action="view-supplier" aria-label="Ver Mercantil Paulista" title="Visualizar">ⓘ</button><button class="icon-button" type="button" data-action="edit-supplier" aria-label="Editar Mercantil Paulista" title="Editar">✎</button><button class="icon-button icon-button--danger" type="button" data-action="delete-supplier" aria-label="Excluir Mercantil Paulista" title="Excluir">×</button></div></td></tr>
-                <tr><td><strong>Café Serra Azul</strong></td><td>Serra Azul Alimentos</td><td>34.567.890/0001-20</td><td>(11) 3333-3000</td><td>comercial@serraazul.com</td><td>1</td><td><div class="module-actions"><button class="icon-button" type="button" data-action="view-supplier" aria-label="Ver Café Serra Azul" title="Visualizar">ⓘ</button><button class="icon-button" type="button" data-action="edit-supplier" aria-label="Editar Café Serra Azul" title="Editar">✎</button><button class="icon-button icon-button--danger" type="button" data-action="delete-supplier" aria-label="Excluir Café Serra Azul" title="Excluir">×</button></div></td></tr>
-                <tr><td><strong>Laticínios Vale</strong></td><td>Laticínios Vale Ltda.</td><td>45.678.901/0001-30</td><td>(11) 3333-4000</td><td>contato@laticiniosvale.com</td><td>1</td><td><div class="module-actions"><button class="icon-button" type="button" data-action="view-supplier" aria-label="Ver Laticínios Vale" title="Visualizar">ⓘ</button><button class="icon-button" type="button" data-action="edit-supplier" aria-label="Editar Laticínios Vale" title="Editar">✎</button><button class="icon-button icon-button--danger" type="button" data-action="delete-supplier" aria-label="Excluir Laticínios Vale" title="Excluir">×</button></div></td></tr>
+                
+                <?php while($linha = mysqli_fetch_assoc($resultado)): ?>
+                    <tr>
+                        <td><strong><?= htmlspecialchars($linha["nome_fornecedor"]) ?></strong></td>
+                        <td><?= htmlspecialchars($linha["empresa"]) ?></td>
+                        <td><?= htmlspecialchars($linha["cnpj"]) ?></td>
+                        <td><?= htmlspecialchars($linha["telefone"]) ?></td>
+                        <td><?= htmlspecialchars($linha["email"]) ?></td>
+                        <td><?= htmlspecialchars($linha["cep"]) ?></td>
+                        <td><?= htmlspecialchars($linha["estado"]) ?></td>
+                        <td><?= htmlspecialchars($linha["cidade"]) ?></td>
+                        <td><?= htmlspecialchars($linha["rua_numero"]) ?></td>
+                    </tr>
+                   <?php endwhile; ?>     
             </tbody>
         </table>
         <p class="module-empty" id="supplier-empty" hidden>Nenhum fornecedor corresponde à pesquisa.</p>
@@ -103,6 +132,10 @@
             <div class="module-field"><label for="supplier-cnpj">CNPJ</label><input id="supplier-cnpj" name="cnpj" type="text" maxlength="18" required placeholder="00.000.000/0000-00"></div>
             <div class="module-field"><label for="supplier-phone">Telefone</label><input id="supplier-phone" name="telefone" type="tel" maxlength="15" required placeholder="(11) 3333-0000"></div>
             <div class="module-field module-field--full"><label for="supplier-email">E-mail</label><input id="supplier-email" name="email" type="email" maxlength="100" required placeholder="contato@empresa.com"></div>
+            <div class="module-field"><label for="supplier-cep">CEP</label><input id="supplier-cep" name="cep" type="text" inputmode="numeric" maxlength="9" required placeholder="00000-000"></div>
+            <div class="module-field"><label for="supplier-state">Estado</label><input id="supplier-state" name="estado" type="text" maxlength="100" required placeholder="Ex.: São Paulo"></div>
+            <div class="module-field"><label for="supplier-city">Cidade</label><input id="supplier-city" name="cidade" type="text" maxlength="100" required placeholder="Ex.: São Paulo"></div>
+            <div class="module-field"><label for="supplier-address">Rua e número</label><input id="supplier-address" name="rua_numero" type="text" maxlength="255" required placeholder="Ex.: Rua das Flores, 123"></div>
         </div>
         <div class="module-form__footer"><div class="module-actions"><button class="module-button module-button--secondary" type="reset">Limpar</button><button class="module-button module-button--primary" type="submit">Adicionar à prévia</button></div></div>
         <p class="module-feedback" id="supplier-feedback" role="status" hidden></p>

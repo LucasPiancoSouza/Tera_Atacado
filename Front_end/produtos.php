@@ -1,3 +1,49 @@
+<?php
+require_once __DIR__ . '/../Back_end/config/database.php';
+
+$sql_produtos = "
+    SELECT
+        p.id_produto,
+        p.nome_produto,
+        p.codigo_produto,
+        p.preco,
+        p.id_fornecedor,
+        f.nome_fornecedor,
+        p.id_categoria,
+        c.nome_categoria,
+        p.codigo_de_barras
+    FROM produtos AS p
+    INNER JOIN categorias AS c
+        ON c.id_categoria = p.id_categoria
+    INNER JOIN fornecedores AS f
+        ON f.id_fornecedor = p.id_fornecedor
+";
+
+$stmt = mysqli_prepare($con, $sql_produtos);
+if (!$stmt) {
+    die('Erro ao preparar a consulta de produtos: ' . mysqli_error($con));
+}
+
+if (!mysqli_stmt_execute($stmt)) {
+    die('Erro ao consultar produtos: ' . mysqli_stmt_error($stmt));
+}
+
+$resultado = mysqli_stmt_get_result($stmt);
+if (!$resultado) {
+    die('Erro ao obter os produtos consultados: ' . mysqli_stmt_error($stmt));
+}
+
+$produtos = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
+
+$sql_categorias = "SELECT id_categoria, nome_categoria FROM categorias"; // Ajuste o nome da coluna se necessário
+$resultado_categorias = mysqli_query($con, $sql_categorias);
+
+// 2. Buscar fornecedores cadastrados
+$sql_fornecedores = "SELECT id_fornecedor, nome_fornecedor FROM fornecedores"; // Ajuste o nome da coluna se necessário
+$resultado_fornecedores = mysqli_query($con, $sql_fornecedores);
+
+
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -111,12 +157,28 @@
 
     </summary>
 
-    <form
-        class="product-form"
-        action="produto_cadastrar.php"
-        method="post"
-    >
 
+<?php if (isset($_GET['sucesso'])): ?>
+    <div style="background-color: #d4edda; color: #155724; padding: 12px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #c3e6cb;">
+        Produto cadastrado com sucesso!
+    </div>
+<?php endif; ?>
+
+<?php if (isset($_GET['erro'])): ?>
+    <div style="background-color: #f8d7da; color: #721c24; padding: 12px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #f5c6cb;">
+        <?php 
+            if ($_GET['erro'] === 'campos_vazios') {
+                echo 'Por favor, preencha todos os campos obrigatórios.';
+            } else {
+                echo 'Ocorreu um erro ao cadastrar o produto. Tente novamente.';
+            }
+        ?>
+    </div>
+<?php endif; ?>
+
+
+<!-- Formulário com o action corrigido -->
+<form class="product-form" action="/Back_end/processamentos/cadastro_produto.php" method="POST">
         <div class="product-form__grid">
 
             <div class="product-form__field">
@@ -175,25 +237,31 @@
             <div class="product-form__field">
                 <label for="id_categoria">Categoria</label>
 
-                <select
-                    id="id_categoria"
-                    name="id_categoria"
-                    required
-                >
-                    <option value="" selected disabled>
-                        Selecione uma categoria
-                    </option>
-                </select>
+                <select name="id_categoria" required>
+    <option value="">Selecione uma categoria</option>
+    <?php if ($resultado_categorias): ?>
+        <?php while ($cat = mysqli_fetch_assoc($resultado_categorias)): ?>
+            <option value="<?= $cat['id_categoria'] ?>">
+                <?= htmlspecialchars($cat['nome_categoria']) ?>
+            </option>
+        <?php endwhile; ?>
+    <?php endif; ?>
+</select>
             </div>
 
             <div class="product-form__field">
                 <label for="id_fornecedor">Fornecedor</label>
 
-                <select
-                    id="id_fornecedor"
-                    name="id_fornecedor"
-                    required
-                >
+                <select name="id_fornecedor" required>
+    <option value="">Selecione um fornecedor</option>
+    <?php if ($resultado_fornecedores): ?>
+        <?php while ($forn = mysqli_fetch_assoc($resultado_fornecedores)): ?>
+            <option value="<?= $forn['id_fornecedor'] ?>">
+                <?= htmlspecialchars($forn['nome_fornecedor']) ?>
+            </option>
+        <?php endwhile; ?>
+    <?php endif; ?>
+</select>
                     <option value="" selected disabled>
                         Selecione um fornecedor
                     </option>
@@ -229,7 +297,7 @@
                 <article class="metric-card">
                     <span class="metric-card__label">Produtos listados</span>
                     <strong class="metric-card__value" id="metric-total">9</strong>
-                    <span class="metric-card__foot">No catálogo demonstrativo</span>
+                    <span class="metric-card__foot">No catálogo</span>
                     <span class="metric-card__icon metric-card__icon--green" aria-hidden="true">▦</span>
                 </article>
                 <article class="metric-card">
@@ -284,46 +352,37 @@
                 </div>
                 <div class="table-wrap">
                     <table class="data-table" id="products-table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Código</th>
-                                <th scope="col">Produto</th>
-                                <th scope="col">Categoria</th>
-                                <th scope="col">Fornecedor</th>
-                                <th scope="col">Estoque</th>
-                                <th scope="col">Situação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr data-category="Alimentos" data-stock="ok">
-                                <td><span class="code-label">ALI-001</span></td><td><strong>Arroz 5kg</strong></td><td>Alimentos</td><td>Distribuidora Central</td><td class="numeric-cell">120 un.</td><td><span class="status-pill status-pill--ok">Disponível</span></td>
-                            </tr>
-                            <tr data-category="Alimentos" data-stock="low">
-                                <td><span class="code-label">ALI-002</span></td><td><strong>Feijão 1kg</strong></td><td>Alimentos</td><td>Distribuidora Central</td><td class="numeric-cell">34 un.</td><td><span class="status-pill status-pill--low">Estoque baixo</span></td>
-                            </tr>
-                            <tr data-category="Bebidas" data-stock="low">
-                                <td><span class="code-label">BEB-005</span></td><td><strong>Café 500g</strong></td><td>Bebidas</td><td>Café do Vale</td><td class="numeric-cell">18 un.</td><td><span class="status-pill status-pill--low">Estoque baixo</span></td>
-                            </tr>
-                            <tr data-category="Bebidas" data-stock="ok">
-                                <td><span class="code-label">BEB-001</span></td><td><strong>Água mineral 1,5L</strong></td><td>Bebidas</td><td>Águas Paulista</td><td class="numeric-cell">310 un.</td><td><span class="status-pill status-pill--ok">Disponível</span></td>
-                            </tr>
-                            <tr data-category="Alimentos" data-stock="ok">
-                                <td><span class="code-label">ALI-004</span></td><td><strong>Macarrão 500g</strong></td><td>Alimentos</td><td>Distribuidora Central</td><td class="numeric-cell">245 un.</td><td><span class="status-pill status-pill--ok">Disponível</span></td>
-                            </tr>
-                            <tr data-category="Laticínios" data-stock="out">
-                                <td><span class="code-label">LAT-001</span></td><td><strong>Leite 1L</strong></td><td>Laticínios</td><td>Laticínios Primavera</td><td class="numeric-cell">0 un.</td><td><span class="status-pill status-pill--out">Sem estoque</span></td>
-                            </tr>
-                            <tr data-category="Alimentos" data-stock="ok">
-                                <td><span class="code-label">ALI-005</span></td><td><strong>Farinha de trigo</strong></td><td>Alimentos</td><td>Moinho Brasil</td><td class="numeric-cell">92 un.</td><td><span class="status-pill status-pill--ok">Disponível</span></td>
-                            </tr>
-                            <tr data-category="Limpeza" data-stock="low">
-                                <td><span class="code-label">LIM-002</span></td><td><strong>Detergente 500ml</strong></td><td>Limpeza</td><td>Higiene Max</td><td class="numeric-cell">27 un.</td><td><span class="status-pill status-pill--low">Estoque baixo</span></td>
-                            </tr>
-                            <tr data-category="Limpeza" data-stock="out">
-                                <td><span class="code-label">LIM-010</span></td><td><strong>Papel toalha</strong></td><td>Limpeza</td><td>Higiene Max</td><td class="numeric-cell">0 un.</td><td><span class="status-pill status-pill--out">Sem estoque</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Produto</th>
+            <th>Preço</th>
+            <th>Fornecedor (ID)</th>
+            <th>Categoria (ID)</th>
+            <th>Cód. de Barras</th>
+            <th>Ações</th> <!-- Coluna de Ações adicionada -->
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (!empty($produtos)): ?>
+            <?php foreach ($produtos as $linha): ?>
+                <tr>
+                    <td><?= htmlspecialchars($linha['codigo_produto']) ?></td>
+                    <td><?= htmlspecialchars($linha['nome_produto']) ?></td>
+                    <td>R$ <?= number_format($linha['preco'], 2, ',', '.') ?></td>
+                    <td><?= htmlspecialchars($linha['nome_fornecedor']) ?></td>
+                    <td><?= htmlspecialchars($linha['nome_categoria']) ?></td>
+                    <td><?= htmlspecialchars($linha['codigo_de_barras']) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="7">Nenhum produto encontrado.</td>
+            </tr>
+        <?php endif; ?>
+        
+    </tbody>
+</table>
                     <p class="empty-state" id="products-empty" hidden>Nenhum produto corresponde aos filtros selecionados.</p>
                 </div>
             </section>

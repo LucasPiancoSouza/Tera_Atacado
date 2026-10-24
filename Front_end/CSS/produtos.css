@@ -307,6 +307,37 @@
 .data-table tbody tr[hidden] { display: none; }
 .data-table td strong { color: #2b3029; font-weight: 600; }
 
+#products-table {
+    min-width: 900px;
+}
+
+#products-table tbody td:first-child,
+#products-table tbody td:nth-child(6) {
+    color: #687064;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+}
+
+#products-table tbody td:first-child {
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+#products-table tbody td:nth-child(2) {
+    color: #29312b;
+    font-weight: 600;
+}
+
+#products-table tbody td:nth-child(3) {
+    color: #355f35;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+#products-table tbody td:nth-child(4),
+#products-table tbody td:nth-child(5) {
+    color: #53604e;
+}
+
 .code-label {
     display: inline-flex;
     padding: 5px 7px;

@@ -1,3 +1,46 @@
 @import url("telas_componentes.css");
 
 /* Estilos da tela de fornecedores. */
+#suppliers-table {
+    min-width: 1180px;
+}
+
+#suppliers-table tbody tr {
+    transition: background-color .18s ease;
+}
+
+#suppliers-table tbody tr:hover {
+    background: #f7fbf5;
+}
+
+#suppliers-table tbody td {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    white-space: nowrap;
+}
+
+#suppliers-table tbody td:first-child strong {
+    color: #355f35;
+    font-size: 13px;
+}
+
+#suppliers-table tbody td:nth-child(3),
+#suppliers-table tbody td:nth-child(6) {
+    color: #687064;
+    font-variant-numeric: tabular-nums;
+}
+
+#suppliers-table tbody td:nth-child(5) {
+    color: #436c39;
+}
+
+#suppliers-table tbody td:nth-child(7) {
+    color: #a9540c;
+    font-weight: 600;
+}
+
+#suppliers-table tbody td:last-child {
+    min-width: 190px;
+    white-space: normal;
+    line-height: 1.45;
+}

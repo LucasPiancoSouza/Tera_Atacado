@@ -1,3 +1,12 @@
+<?php
+require_once __DIR__ . '/../Back_end/config/database.php';
+
+                    $sql = "Select * from categorias";                             
+                    $stmt = mysqli_prepare($con, $sql);
+                    mysqli_stmt_execute($stmt);
+                    $resultado = mysqli_stmt_get_result($stmt);
+                    
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -80,42 +89,84 @@
         <h1>Categorias</h1>
         <p class="module-subtitle">Organize os produtos por categoria para facilitar a consulta e os relatórios.</p>
     </div>
-    <a href="#category-create" class="module-button module-button--primary"><span aria-hidden="true">＋</span> Nova categoria</a>
 </div>
+<section class="module-panel module-create-panel" id="category-create" aria-labelledby="category-create-title">
+    <div class="module-panel__header"><div><h2 id="category-create-title">Adicionar categoria</h2><p>Preencha o campo para cadastrar uma nova categoria no sistema.</p></div></div>
+    <form id="category-form" class="module-form">
+        <div class="module-form__grid">
+            <div class="module-field" style="grid-column: 1 / -1;">
+                <label for="category-name">Nome da categoria</label>
+                <input id="category-name" name="nome_categoria" type="text" maxlength="100" placeholder="Ex.: Limpeza" required>
+            </div>
+        </div>
+        <div class="module-form__footer">
+            <div class="module-actions">
+                <button class="module-button module-button--secondary" type="reset">Limpar</button>
+                <button class="module-button module-button--primary" type="submit">Cadastrar categoria</button>
+            </div>
+        </div>
+        <p class="module-feedback" id="category-feedback" role="status" hidden></p>
+    </form>
+</section>
 <section class="module-panel" aria-labelledby="category-list-title">
     <div class="module-panel__header">
         <div><h2 id="category-list-title">Categorias cadastradas</h2></div>
-        <span class="module-count" id="category-count">3 categorias</span>
+        <span class="module-count" id="category-count"><?= mysqli_num_rows($resultado) ?> categorias</span>
     </div>
     <div class="module-toolbar">
         <label class="module-search" for="category-search"><span aria-hidden="true">⌕</span><input id="category-search" type="search" placeholder="Buscar categoria..." autocomplete="off"></label>
     </div>
     <div class="module-table-wrap">
         <table class="module-table" id="categories-table">
-            <thead><tr><th scope="col">Categoria</th><th scope="col">Quantidade de produtos</th><th scope="col">Data de criação</th><th scope="col">Ações</th></tr></thead>
+            <thead>
+                <tr>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Data de criação</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
             <tbody>
-                <tr><td><strong>Alimentos</strong></td><td>6</td><td>12/01/2026</td><td><div class="module-actions"><button type="button" class="icon-button" data-action="edit-category" aria-label="Editar Alimentos" title="Editar">✎</button><button type="button" class="icon-button icon-button--danger" data-action="delete-category" aria-label="Excluir Alimentos" title="Excluir">×</button></div></td></tr>
-                <tr><td><strong>Bebidas</strong></td><td>3</td><td>15/01/2026</td><td><div class="module-actions"><button type="button" class="icon-button" data-action="edit-category" aria-label="Editar Bebidas" title="Editar">✎</button><button type="button" class="icon-button icon-button--danger" data-action="delete-category" aria-label="Excluir Bebidas" title="Excluir">×</button></div></td></tr>
-                <tr><td><strong>Laticínios</strong></td><td>1</td><td>18/01/2026</td><td><div class="module-actions"><button type="button" class="icon-button" data-action="edit-category" aria-label="Editar Laticínios" title="Editar">✎</button><button type="button" class="icon-button icon-button--danger" data-action="delete-category" aria-label="Excluir Laticínios" title="Excluir">×</button></div></td></tr>
+                <?php while($linha = mysqli_fetch_assoc($resultado)): ?>
+                <tr>
+                    <td>
+                        <strong><?= htmlspecialchars($linha["nome_categoria"]) ?></strong>
+                    </td>
+                    <td>
+                        <?php
+                            $data = DateTime::createFromFormat('Y-m-d', $linha["data_criacao"]);
+                            $dataFormatada = $data ? $data->format('d/m/Y') : $linha["data_criacao"];
+                        ?>
+                        <?= htmlspecialchars($dataFormatada) ?>
+                    </td>
+                    <td><div class="module-actions"></div></td>
+                </tr>
+                <?php endwhile; ?>
             </tbody>
         </table>
         <p class="module-empty" id="category-empty" hidden>Nenhuma categoria corresponde à pesquisa.</p>
     </div>
 </section>
-<section class="module-panel module-create-panel" id="category-create" aria-labelledby="category-create-title">
-    <div class="module-panel__header"><div><h2 id="category-create-title">Adicionar categoria</h2><p>Preencha os campos para visualizar a nova categoria na tabela.</p></div></div>
-    <form id="category-form" class="module-form">
-        <div class="module-form__grid module-form__grid--three">
-            <div class="module-field"><label for="category-name">Nome da categoria</label><input id="category-name" name="nome_categoria" type="text" maxlength="100" placeholder="Ex.: Limpeza" required></div>
-            <div class="module-field"><label for="category-quantity">Quantidade de produtos</label><input id="category-quantity" name="quantidade_categoria" type="number" min="0" value="0" required></div>
-            <div class="module-field"><label for="category-date">Data de criação</label><input id="category-date" name="data_criacao" type="date" required></div>
-        </div>
-        <div class="module-form__footer"><div class="module-actions"><button class="module-button module-button--secondary" type="reset">Limpar</button><button class="module-button module-button--primary" type="submit">Adicionar à prévia</button></div></div>
-        <p class="module-feedback" id="category-feedback" role="status" hidden></p>
-    </form>
-</section>
+
 
 </main>
+</div>
+<div class="category-modal category-modal--info" id="category-modal" hidden>
+    <div class="category-modal__backdrop" data-modal-cancel aria-hidden="true"></div>
+    <section class="category-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="category-modal-title" aria-describedby="category-modal-message">
+        <button class="category-modal__close" type="button" data-modal-cancel aria-label="Fechar">&times;</button>
+        <span class="category-modal__icon" id="category-modal-icon" aria-hidden="true">i</span>
+        <p class="category-modal__eyebrow">TERA ATACADO</p>
+        <h2 class="category-modal__title" id="category-modal-title"></h2>
+        <p class="category-modal__message" id="category-modal-message"></p>
+        <div class="category-modal__field" id="category-modal-field" hidden>
+            <label for="category-modal-input">Nome da categoria</label>
+            <input id="category-modal-input" type="text" maxlength="100" autocomplete="off" required>
+        </div>
+        <div class="category-modal__actions">
+            <button class="module-button module-button--secondary" id="category-modal-cancel" type="button" hidden></button>
+            <button class="module-button module-button--primary" id="category-modal-confirm" type="button">Fechar</button>
+        </div>
+    </section>
 </div>
 <div class="logout-modal" id="confirmar-saida" role="dialog" aria-modal="true" aria-labelledby="logout-modal-title">
     <a class="logout-modal__backdrop" href="#" aria-label="Fechar confirmação de saída"></a>
