@@ -233,14 +233,19 @@
 }
 
 .location-sector {
-    display: inline-grid;
-    width: 26px;
-    height: 26px;
-    place-items: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    min-height: 26px;
+    padding: 0 8px;
+    box-sizing: border-box;
+    border: 1px solid #d9e6d4;
     border-radius: 8px;
     background: #edf5e9;
     color: #3d7436;
     font-weight: 700;
+    white-space: nowrap;
 }
 
 .location-sector--orange {
