@@ -27,6 +27,25 @@ document.addEventListener('DOMContentLoaded', function () {
     let resolverModalAcao = null;
     let elementoAnteriorAcao = null;
 
+    document.querySelectorAll('#supplier-phone, #edit-supplier-phone').forEach(input => {
+        input.addEventListener('input', () => {
+            const digitos = input.value.replace(/\D/g, '').slice(0, 11);
+            let telefone = '';
+
+            if (digitos.length > 10) {
+                telefone = `(${digitos.slice(0, 2)}) ${digitos.slice(2, 7)}-${digitos.slice(7)}`;
+            } else if (digitos.length > 6) {
+                telefone = `(${digitos.slice(0, 2)}) ${digitos.slice(2, 6)}-${digitos.slice(6)}`;
+            } else if (digitos.length > 2) {
+                telefone = `(${digitos.slice(0, 2)}) ${digitos.slice(2)}`;
+            } else if (digitos.length > 0) {
+                telefone = `(${digitos}`;
+            }
+
+            input.value = telefone;
+        });
+    });
+
     function mostrarPopupSucesso(titulo, mensagem) {
         if (!popupSucesso || !popupSucessoTitulo || !popupSucessoMensagem) {
             console.error('O pop-up de sucesso não foi encontrado na página.');
