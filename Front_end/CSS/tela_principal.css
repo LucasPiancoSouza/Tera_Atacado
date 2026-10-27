@@ -3,8 +3,8 @@
    ===================================================== */
 
 :root {
-    --header-height: clamp(72px, 9vh, 88px);
-    --sidebar-width: clamp(220px, 20vw, 260px);
+    --header-height: clamp(88px, 13vh, 112px);
+    --sidebar-width: clamp(220px, 30vh, 268px);
 
     /* Identidade visual Tera Atacado */
     --tera-green: #558647;
@@ -37,7 +37,6 @@ html {
 
 body {
     height: 100vh;
-    height: 100dvh;
     min-height: 100vh;
     overflow: hidden;
 
@@ -74,29 +73,30 @@ input {
     min-height: var(--header-height);
     max-height: var(--header-height);
 
-    padding: 0 clamp(16px, 2.5vw, 28px);
+    padding: 0 22px;
+    box-sizing: border-box;
 
     background-color: var(--white);
     border-bottom: 1px solid var(--line);
 
-    box-shadow: 0 2px 10px rgba(29, 46, 25, 0.035);
+    box-shadow: 0 2px 12px rgba(29, 46, 25, 0.04);
 }
 
 .header .logo {
     display: block;
     flex-shrink: 0;
 
-    width: clamp(132px, 18vw, 180px);
+    width: clamp(150px, 25vh, 205px);
     height: var(--header-height);
 
     object-fit: contain;
 }
 
 .texto {
-    margin-left: clamp(16px, 3vw, 32px);
+    margin-left: clamp(16px, 4vh, 40px);
 
     font-family: 'Inter', sans-serif;
-    font-size: clamp(13px, 1.2vw, 16px);
+    font-size: clamp(15px, 2vh, 20px);
     line-height: 1.3;
 
     animation: aparecer 1s ease-in-out;
@@ -104,12 +104,12 @@ input {
 
 .destaque {
     color: var(--tera-green-dark);
-    font-weight: 700;
+    font-size: 20px;
 }
 
 .destaque2 {
     color: #be5906;
-    font-weight: 700;
+    font-size: 20px;
 }
 
 @keyframes aparecer {
@@ -140,7 +140,6 @@ input {
 
     width: 100%;
     height: calc(100vh - var(--header-height));
-    height: calc(100dvh - var(--header-height));
 
     overflow: hidden;
 }
@@ -155,6 +154,7 @@ input {
     margin-left: var(--sidebar-width);
     padding: 28px clamp(20px, 2.4vw, 34px) 36px;
 
+    box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: auto;
 
@@ -183,7 +183,7 @@ input {
     padding: 0 12px 20px;
     box-sizing: border-box;
 
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;
     overscroll-behavior: contain;
 
@@ -1044,9 +1044,13 @@ select:focus {
         padding: 0 16px;
     }
 
+    .header .logo {
+        width: 145px;
+    }
+
     .header .texto {
         margin-left: 14px;
-        font-size: 13px;
+        font-size: 15px;
     }
 
     .layout > main {
@@ -1069,105 +1073,62 @@ select:focus {
 
 @media (max-width: 620px) {
     :root {
-        --header-height: 72px;
-        --sidebar-width: 0px;
+        --header-height: 82px;
+        --sidebar-width: 72px;
     }
 
     .header {
-        padding: 0 12px;
+        padding: 0 10px;
     }
 
     .header .logo {
-        width: 104px;
-        height: 64px;
+        width: 98px;
+        height: 72px;
     }
 
     .header .texto {
-        margin-left: 12px;
-        font-size: 11px;
+        margin-left: 8px;
+        font-size: 12px;
     }
 
     .sidebar {
-        top: auto;
-        bottom: 0;
-        z-index: 1100;
-        width: 100%;
-        height: 72px;
-        min-height: 72px;
-        padding: 6px 8px;
-        overflow-x: auto;
-        overflow-y: hidden;
-        border-top: 1px solid var(--line);
-        border-right: 0;
-        background: var(--white);
-        scrollbar-width: none;
-    }
-
-    .sidebar::-webkit-scrollbar {
-        display: none;
-    }
-
-    .sidebar-header,
-    .sidebar nav {
-        width: max-content;
-        height: 100%;
-    }
-
-    .sidebar nav {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        margin: 0;
+        padding: 0 6px 12px;
     }
 
     .menu-section {
-        display: contents;
-        margin: 0;
+        margin-bottom: 13px;
     }
 
     .menu-section h3 {
-        display: none;
+        width: 1px;
+        height: 1px;
+        margin: 0;
+        overflow: hidden;
+        opacity: 0;
     }
 
     .menu-item {
-        flex: 0 0 70px;
-        flex-direction: column;
         justify-content: center;
-        gap: 3px;
-        width: 70px;
-        min-height: 58px;
-        height: 58px;
-        padding: 5px 3px;
-        margin: 0;
-        border-radius: 8px;
-        font-size: 10px;
-        text-align: center;
+        gap: 0;
+        padding: 0 4px;
+        font-size: 0;
     }
 
     .menu-item span:first-child {
         width: auto;
-        font-size: 17px;
-        line-height: 1;
+        font-size: 20px;
     }
 
     .menu-item span:last-child {
-        position: static;
-        width: 100%;
-        height: auto;
+        position: absolute;
+        width: 1px;
+        height: 1px;
         overflow: hidden;
-        clip: auto;
+        clip: rect(0, 0, 0, 0);
         white-space: nowrap;
-        font-size: 9px;
-    }
-
-    .layout {
-        height: calc(100vh - var(--header-height) - 72px);
-        height: calc(100dvh - var(--header-height) - 72px);
     }
 
     .layout > main {
-        width: 100%;
-        margin-left: 0;
         padding: 18px 12px 24px;
     }
 
