@@ -1,3 +1,6 @@
+create database tera_atacado;
+USE tera_atacado;
+
 CREATE TABLE usuarios (
     id_usuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     nome_usuario VARCHAR(100) NOT NULL,
@@ -19,12 +22,13 @@ CREATE TABLE fornecedores (
     estado varchar(100) not null,
     cidade varchar(100) not null,
     rua_numero varchar(255) not null
+
 );
 
 CREATE TABLE categorias (
     id_categoria INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    nome_categoria VARCHAR(100) NOT NULL UNIQUE,
-    data_criacao DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
+    nome_categoria VARCHAR(100) NOT NULL unique,
+    data_criacao datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE localizacao (

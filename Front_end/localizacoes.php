@@ -1,5 +1,73 @@
+<?php
+session_start();
+
+require_once __DIR__ . '/../Back_end/config/database.php';
+
+
+session_start();
+
+require_once __DIR__ . '/../Back_end/config/database.php';
+
+$sql = "SELECT
+    p.nome_produto,
+    p.codigo_produto,
+    p.estoque_minimo, (
+    SELECT COALESCE(SUM(lp2.quantidade_produto), 0)
+    FROM localizacao_produto lp2
+    WHERE lp2.id_produto = p.id_produto
+) AS estoque_total,
+    lp.quantidade_produto,
+    l.setor,
+    l.corredor,
+    l.prateleira,
+    l.andar
+FROM produtos p
+INNER JOIN localizacao_produto lp
+    ON p.id_produto = lp.id_produto
+INNER JOIN localizacao l
+    ON lp.id_localizacao = l.id_localizacao";
+
+$resultado = $con->query($sql);
+
+$sqlResumo = "SELECT
+    COUNT(DISTINCT lp.id_produto) AS produtos_localizados,
+    COUNT(DISTINCT l.setor) AS total_setores
+FROM localizacao_produto lp
+INNER JOIN localizacao l
+    ON lp.id_localizacao = l.id_localizacao";
+
+$resultadoResumo = $con->query($sqlResumo);
+$resumo = $resultadoResumo->fetch_assoc();
+
+$sqlSemLocalizacao = "SELECT
+    COUNT(*) AS produtos_sem_localizacao
+FROM produtos p
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM localizacao_produto lp
+    WHERE lp.id_produto = p.id_produto
+)";
+
+$resultadoSemLocalizacao = $con->query($sqlSemLocalizacao);
+$semLocalizacao = $resultadoSemLocalizacao->fetch_assoc();
+
+$sqlTotalUnidadesEstoque = "
+    SELECT
+        COALESCE(SUM(quantidade_produto), 0) AS total_estoque
+    FROM localizacao_produto
+";
+
+$resultadoTotalUnidadesEstoque = $con->query($sqlTotalUnidadesEstoque);
+
+$registroTotalUnidadesEstoque = $resultadoTotalUnidadesEstoque->fetch_assoc();
+
+$quantidadeTotalEstoque = (int) $registroTotalUnidadesEstoque['total_estoque'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +80,7 @@
     <link rel="stylesheet" href="CSS/tela_principal.css">
     <link rel="stylesheet" href="CSS/localizacoes.css">
 </head>
+
 <body>
     <header class="header">
         <div class="logodiv">
@@ -60,21 +129,34 @@
                     <h1>Localização de produtos</h1>
                     <p class="module-subtitle">Encontre rapidamente o setor, corredor e posição de cada produto no estoque.</p>
                 </div>
-                <span class="location-demo-badge"><span aria-hidden="true">●</span> Dados demonstrativos</span>
             </div>
 
             <section class="location-summary" aria-label="Resumo demonstrativo do estoque">
                 <article class="location-summary__card">
                     <span class="location-summary__icon location-summary__icon--green" aria-hidden="true">▦</span>
-                    <div><p>Produtos localizados</p><strong>128</strong><span>em 4 setores</span></div>
+                    <div>
+                        <p>Produtos localizados</p>
+                        <strong><?= (int) $resumo['produtos_localizados'] ?></strong>
+                        <span>em <?= (int) $resumo['total_setores'] ?> setores</span>
+                    </div>
                 </article>
                 <article class="location-summary__card">
                     <span class="location-summary__icon location-summary__icon--orange" aria-hidden="true">⌖</span>
-                    <div><p>Posições ocupadas</p><strong>86</strong><span>de 120 posições</span></div>
+                    <div>
+                        <p>Produtos sem localização</p>
+                        <strong><?= (int) $semLocalizacao['produtos_sem_localizacao'] ?></strong>
+                        <span>Aguardando localização</span>
+                    </div>
                 </article>
                 <article class="location-summary__card">
                     <span class="location-summary__icon location-summary__icon--blue" aria-hidden="true">□</span>
-                    <div><p>Unidades armazenadas</p><strong>2.460</strong><span>somando as posições</span></div>
+                    <div>
+                        <p>Unidades armazenadas</p>
+                        <strong>
+                            <?= number_format($quantidadeTotalEstoque, 0, ',', '.') ?>
+                        </strong>
+                        <span>somando as posições</span>
+                    </div>
                 </article>
             </section>
 
@@ -134,40 +216,46 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><strong>Arroz Tipo 1 5 kg</strong><span class="location-table__category">Alimentos</span></td>
-                                <td>ALI-001</td><td><span class="location-sector">A</span></td><td>02</td><td>03</td><td>2</td><td>48 un.</td>
-                                <td><span class="location-status location-status--available">Disponível</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Feijão Carioca 1 kg</strong><span class="location-table__category">Alimentos</span></td>
-                                <td>ALI-014</td><td><span class="location-sector">A</span></td><td>02</td><td>03</td><td>1</td><td>32 un.</td>
-                                <td><span class="location-status location-status--available">Disponível</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Óleo de Soja 900 ml</strong><span class="location-table__category">Mercearia</span></td>
-                                <td>MER-008</td><td><span class="location-sector">A</span></td><td>04</td><td>01</td><td>2</td><td>6 un.</td>
-                                <td><span class="location-status location-status--low">Estoque baixo</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Detergente Neutro 500 ml</strong><span class="location-table__category">Limpeza</span></td>
-                                <td>LIM-022</td><td><span class="location-sector location-sector--orange">B</span></td><td>01</td><td>04</td><td>1</td><td>75 un.</td>
-                                <td><span class="location-status location-status--available">Disponível</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Leite Integral 1 L</strong><span class="location-table__category">Laticínios</span></td>
-                                <td>LAT-003</td><td><span class="location-sector location-sector--orange">B</span></td><td>03</td><td>02</td><td>1</td><td>24 un.</td>
-                                <td><span class="location-status location-status--available">Disponível</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Café Tradicional 500 g</strong><span class="location-table__category">Alimentos</span></td>
-                                <td>ALI-031</td><td><span class="location-sector location-sector--blue">C</span></td><td>01</td><td>02</td><td>3</td><td>0 un.</td>
-                                <td><span class="location-status location-status--empty">Sem estoque</span></td>
-                            </tr>
+                            <?php while ($produto = $resultado->fetch_assoc()): ?>
+                                <?php
+                                $estoqueTotal = $produto['estoque_total'];
+                                $estoqueMinimo = $produto['estoque_minimo'];
+
+                                if ($estoqueTotal == 0) {
+                                    $status = "Sem estoque";
+                                    $classeStatus = "location-status--empty";
+                                } elseif ($estoqueTotal <= $estoqueMinimo) {
+                                    $status = "Estoque baixo";
+                                    $classeStatus = "location-status--low";
+                                } else {
+                                    $status = "Disponível";
+                                    $classeStatus = "location-status--available";
+                                }
+                                ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($produto['nome_produto']) ?></td>
+                                    <td><?= htmlspecialchars($produto['codigo_produto']) ?></td>
+                                    <td>
+                                        <span class="location-sector">
+                                            <?= htmlspecialchars($produto['setor']) ?>
+                                        </span>
+                                    </td>
+
+                                    <td><?= htmlspecialchars($produto['corredor']) ?></td>
+                                    <td><?= htmlspecialchars($produto['prateleira']) ?></td>
+                                    <td><?= htmlspecialchars($produto['andar']) ?></td>
+                                    <td><?= htmlspecialchars($produto['quantidade_produto']) ?> un.</td>
+                                    <td>
+                                        <span class="location-status <?= $classeStatus ?>">
+                                            <?= $status ?>
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            <?php endwhile; ?>
                         </tbody>
                     </table>
                 </div>
-                <p class="location-table__note"><span aria-hidden="true">i</span> Os dados exibidos são fictícios e servem somente para visualizar a proposta da tela.</p>
             </section>
         </main>
     </div>
@@ -186,4 +274,5 @@
     </div>
     <script src="JAVASCRIPT/menu-ativo.js"></script>
 </body>
+
 </html>
