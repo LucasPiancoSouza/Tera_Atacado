@@ -43,51 +43,15 @@ try {
             exit;
         }
 
-        $stmt = $conexao->prepare("UPDATE produtos SET nome_produto = ?, codigo_produto = ?, preco = ?, codigo_de_barras = ?, id_categoria = ?, id_fornecedor = ?, estoque_minimo = ? WHERE id_produto = ?");
+        $stmt = $conexao->prepare("UPDATE produtos SET nome_produto = ?, preco = ?, id_categoria = ?, id_fornecedor = ?, estoque_minimo = ? WHERE id_produto = ?");
         
-        $stmtVerificacao = $conexao->prepare(
-            "SELECT 1 FROM produtos
-            WHERE codigo_produto = ? OR codigo_de_barras = ?
-            LIMIT 1"
-        );
-
-        if (!$stmtVerificacao) {
-            echo json_encode([
-                'sucesso' => false,
-                'erro' => 'Erro ao preparar a verificação de duplicidade.'
-            ]);
-            exit;
-        }
-
-        $stmtVerificacao->bind_param("ss", $codigo, $codigoBarras);
-
-        if (!$stmtVerificacao->execute()) {
-            echo json_encode([
-                'sucesso' => false,
-                'erro' => 'Erro ao verificar os códigos do produto.'
-            ]);
-            exit;
-        }
-
-        $verificacao = $stmtVerificacao->get_result();
-
-        if ($verificacao->num_rows > 0) {
-            $stmtVerificacao->close();
-            echo json_encode([
-                'sucesso' => false,
-                'erro' => 'O código do produto ou o código de barras já está cadastrado.'
-            ]);
-            exit;
-        }
-
-        $stmtVerificacao->close();
 
         if (!$stmt) {
             echo json_encode(['sucesso' => false, 'erro' => 'Erro ao preparar edição: ' . $conexao->error]);
             exit;
         }
 
-        $stmt->bind_param("ssdsiiii", $nome, $codigo, $preco, $codigoBarras, $idCategoria, $idFornecedor, $estoqueMinimo, $id);
+        $stmt->bind_param("sdiiii", $nome, $preco, $idCategoria, $idFornecedor, $estoqueMinimo, $id);
 
         if ($stmt->execute()) {
             $stmt->close();

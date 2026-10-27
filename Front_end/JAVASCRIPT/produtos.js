@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="product-edit-modal__fields">
                         <div class="category-modal__field">
                             <label for="edit-codigo-produto">Código do produto</label>
-                            <input id="edit-codigo-produto" name="codigo_produto" type="text" maxlength="13" required>
+                            <input id="edit-codigo-produto" name="codigo_produto" type="text" maxlength="13" required readonly >
                         </div>
                         <div class="category-modal__field">
                             <label for="edit-nome-produto">Nome do produto</label>
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
                         <div class="category-modal__field">
                             <label for="edit-codigo-barras-produto">Código de barras</label>
-                            <input id="edit-codigo-barras-produto" name="codigo_de_barras" type="text" maxlength="128" required>
+                            <input id="edit-codigo-barras-produto" name="codigo_de_barras" type="text" maxlength="128" required readonly >
                         </div>
                         <div class="category-modal__field">
                             <label for="edit-estoque-minimo-produto">Estoque mínimo (unidades)</label>

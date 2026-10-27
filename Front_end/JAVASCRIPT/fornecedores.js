@@ -110,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td>
                     <div class="module-actions">
                         <button class="icon-button" type="button" data-action="edit-supplier" data-id="${escapeHtml(forn.id_fornecedor)}" title="Editar fornecedor" aria-label="Editar fornecedor ${escapeHtml(forn.nome_fornecedor)}">✎ <span>Editar</span></button>
-                        <button class="icon-button icon-button--danger" type="button" data-action="delete-supplier" data-id="${escapeHtml(forn.id_fornecedor)}" data-nome="${escapeHtml(forn.nome_fornecedor)}" title="Excluir fornecedor" aria-label="Excluir fornecedor ${escapeHtml(forn.nome_fornecedor)}">× <span>Excluir</span></button>
                     </div>
                 </td>
             `;
