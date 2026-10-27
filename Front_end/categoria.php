@@ -32,7 +32,7 @@ require_once __DIR__ . '/../Back_end/config/database.php';
                 <nav>
                     <div class="menu-section">
                         <h3>PRINCIPAL</h3>
-                        <a href="tela_principal.php" class="menu-item active" aria-current="page">
+                        <a href="tela_principal.php" class="menu-item">
                             <span>⌂</span>
                             <span>Dashboard</span>
                         </a>
@@ -187,6 +187,7 @@ require_once __DIR__ . '/../Back_end/config/database.php';
         <p id="popup-sucesso-mensagem">A categoria foi cadastrada com sucesso.</p>
     </div>
 </div>
+<script src="JAVASCRIPT/menu-ativo.js"></script>
 <script src="JAVASCRIPT/categorias.js" defer></script>
 </body>
 </html>

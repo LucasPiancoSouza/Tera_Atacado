@@ -31,7 +31,7 @@ require_once __DIR__ . '/../Back_end/config/database.php';
                 <nav>
                     <div class="menu-section">
                         <h3>PRINCIPAL</h3>
-                        <a href="tela_principal.php" class="menu-item active" aria-current="page">
+                        <a href="tela_principal.php" class="menu-item">
                             <span>⌂</span>
                             <span>Dashboard</span>
                         </a>
@@ -101,7 +101,7 @@ require_once __DIR__ . '/../Back_end/config/database.php';
                 <th scope="col">Estado</th>
                 <th scope="col">Cidade</th>
                 <th scope="col">Logradouro</th>
-                
+                <th scope="col">Ações</th>
             </tr>
         </thead>
             <tbody>
@@ -117,6 +117,27 @@ require_once __DIR__ . '/../Back_end/config/database.php';
                         <td><?= htmlspecialchars($linha["estado"]) ?></td>
                         <td><?= htmlspecialchars($linha["cidade"]) ?></td>
                         <td><?= htmlspecialchars($linha["rua_numero"]) ?></td>
+                        <td>
+                            <div class="module-actions">
+                                <button
+                                    type="button"
+                                    class="icon-button"
+                                    data-action="edit-supplier"
+                                    data-id="<?= (int) $linha['id_fornecedor'] ?>"
+                                    title="Editar fornecedor"
+                                    aria-label="Editar fornecedor <?= htmlspecialchars($linha['nome_fornecedor'], ENT_QUOTES, 'UTF-8') ?>"
+                                >✎ <span>Editar</span></button>
+                                <button
+                                    type="button"
+                                    class="icon-button icon-button--danger"
+                                    data-action="delete-supplier"
+                                    data-id="<?= (int) $linha['id_fornecedor'] ?>"
+                                    data-nome="<?= htmlspecialchars($linha['nome_fornecedor'], ENT_QUOTES, 'UTF-8') ?>"
+                                    title="Excluir fornecedor"
+                                    aria-label="Excluir fornecedor <?= htmlspecialchars($linha['nome_fornecedor'], ENT_QUOTES, 'UTF-8') ?>"
+                                >× <span>Excluir</span></button>
+                            </div>
+                        </td>
                     </tr>
                    <?php endwhile; ?>     
             </tbody>
@@ -147,6 +168,77 @@ require_once __DIR__ . '/../Back_end/config/database.php';
 
 </main>
 </div>
+<div class="supplier-edit-modal" id="modalEditarFornecedor" hidden>
+    <div class="supplier-edit-modal__backdrop" data-action="close-edit-modal" aria-hidden="true"></div>
+    <section class="supplier-edit-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="edit-supplier-title" aria-describedby="edit-supplier-description">
+        <button class="supplier-edit-modal__close" type="button" data-action="close-edit-modal" aria-label="Fechar">&times;</button>
+        <p class="module-eyebrow">TERA ATACADO / CADASTROS</p>
+        <h2 class="supplier-edit-modal__title" id="edit-supplier-title">Editar fornecedor</h2>
+        <p class="supplier-edit-modal__description" id="edit-supplier-description">Atualize os dados cadastrais e de endereço do fornecedor.</p>
+        <form id="formEditarFornecedor" class="module-form">
+            <input type="hidden" name="id_fornecedor">
+            <div class="module-form__grid module-form__grid--two">
+                <div class="module-field">
+                    <label for="edit-supplier-name">Nome do fornecedor</label>
+                    <input id="edit-supplier-name" name="nome_fornecedor" type="text" maxlength="100" required>
+                </div>
+                <div class="module-field">
+                    <label for="edit-supplier-company">Empresa</label>
+                    <input id="edit-supplier-company" name="empresa" type="text" maxlength="100" required>
+                </div>
+                <div class="module-field">
+                    <label for="edit-supplier-cnpj">CNPJ</label>
+                    <input id="edit-supplier-cnpj" name="cnpj" type="text" maxlength="18" required>
+                </div>
+                <div class="module-field">
+                    <label for="edit-supplier-phone">Telefone</label>
+                    <input id="edit-supplier-phone" name="telefone" type="tel" maxlength="15" required>
+                </div>
+                <div class="module-field module-field--full">
+                    <label for="edit-supplier-email">E-mail</label>
+                    <input id="edit-supplier-email" name="email" type="email" maxlength="100" required>
+                </div>
+                <div class="module-field">
+                    <label for="edit-supplier-cep">CEP</label>
+                    <input id="edit-supplier-cep" name="cep" type="text" maxlength="9" required>
+                </div>
+                <div class="module-field">
+                    <label for="edit-supplier-state">Estado (UF)</label>
+                    <input id="edit-supplier-state" name="estado" type="text" maxlength="2" required>
+                </div>
+                <div class="module-field">
+                    <label for="edit-supplier-city">Cidade</label>
+                    <input id="edit-supplier-city" name="cidade" type="text" maxlength="100" required>
+                </div>
+                <div class="module-field">
+                    <label for="edit-supplier-address">Rua / Número</label>
+                    <input id="edit-supplier-address" name="rua_numero" type="text" maxlength="255" required>
+                </div>
+            </div>
+            <div class="module-form__footer">
+                <div class="module-actions">
+                    <button class="module-button module-button--secondary" type="button" data-action="close-edit-modal">Cancelar</button>
+                    <button class="module-button module-button--primary" type="submit">Salvar alterações</button>
+                </div>
+            </div>
+            <p class="module-feedback" id="edit-supplier-feedback" role="status" hidden></p>
+        </form>
+    </section>
+</div>
+<div class="category-modal category-modal--warning" id="supplier-action-modal" hidden>
+    <div class="category-modal__backdrop" data-supplier-modal-close aria-hidden="true"></div>
+    <section class="category-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="supplier-action-title" aria-describedby="supplier-action-message">
+        <button class="category-modal__close" type="button" data-supplier-modal-close aria-label="Fechar">&times;</button>
+        <span class="category-modal__icon" id="supplier-action-icon" aria-hidden="true">!</span>
+        <p class="category-modal__eyebrow">TERA ATACADO</p>
+        <h2 class="category-modal__title" id="supplier-action-title"></h2>
+        <p class="category-modal__message" id="supplier-action-message"></p>
+        <div class="category-modal__actions">
+            <button class="module-button module-button--secondary" id="supplier-action-cancel" type="button">Cancelar</button>
+            <button class="module-button module-button--primary category-modal__confirm--danger" id="supplier-action-confirm" type="button">Excluir fornecedor</button>
+        </div>
+    </section>
+</div>
 <div class="logout-modal" id="confirmar-saida" role="dialog" aria-modal="true" aria-labelledby="logout-modal-title">
     <a class="logout-modal__backdrop" href="#" aria-label="Fechar confirmação de saída"></a>
     <section class="logout-modal__dialog">
@@ -166,6 +258,7 @@ require_once __DIR__ . '/../Back_end/config/database.php';
         <p id="popup-sucesso-mensagem">O fornecedor foi cadastrado com sucesso.</p>
     </div>
 </div>
+<script src="JAVASCRIPT/menu-ativo.js"></script>
 <script src="JAVASCRIPT/fornecedores.js" defer></script>
 </body>
 </html>

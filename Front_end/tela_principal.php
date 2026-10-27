@@ -172,7 +172,7 @@ foreach (
                 <nav>
                     <div class="menu-section">
                         <h3>PRINCIPAL</h3>
-                        <a href="tela_principal.php" class="menu-item active" aria-current="page">
+                        <a href="tela_principal.php" class="menu-item">
                             <span>⌂</span>
                             <span>Dashboard</span>
                         </a>
@@ -758,6 +758,7 @@ LIMIT 5;
         </section>
     </div>
 
+    <script src="JAVASCRIPT/menu-ativo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         window.dadosMovimentacoes = <?php

@@ -47,7 +47,7 @@ $resultadoLocalizacoes = $con->query($sqlLocalizacoes);
                 <nav>
                     <div class="menu-section">
                         <h3>PRINCIPAL</h3>
-                        <a href="tela_principal.php" class="menu-item active" aria-current="page">
+                        <a href="tela_principal.php" class="menu-item">
                             <span>⌂</span>
                             <span>Dashboard</span>
                         </a>
@@ -275,6 +275,7 @@ $resultadoLocalizacoes = $con->query($sqlLocalizacoes);
     </div>
 
 </div>
+<script src="JAVASCRIPT/menu-ativo.js"></script>
 <script src="JAVASCRIPT/saidas.js" defer></script>
 </body>
 </html>

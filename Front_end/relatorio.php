@@ -302,7 +302,7 @@ try {
                 <nav>
                     <div class="menu-section">
                         <h3>PRINCIPAL</h3>
-                        <a href="tela_principal.php" class="menu-item active" aria-current="page">
+                        <a href="tela_principal.php" class="menu-item">
                             <span>⌂</span>
                             <span>Dashboard</span>
                         </a>
@@ -398,6 +398,7 @@ try {
         </div>
     </section>
 </div>
+<script src="JAVASCRIPT/menu-ativo.js"></script>
 <script src="JAVASCRIPT/relatorios.js" defer></script>
 </body>
 </html>

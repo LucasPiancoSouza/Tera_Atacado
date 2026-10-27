@@ -33,7 +33,7 @@ require_once __DIR__ . '/../Back_end/config/database.php';
                 <nav>
                     <div class="menu-section">
                         <h3>PRINCIPAL</h3>
-                        <a href="tela_principal.php" class="menu-item active" aria-current="page">
+                        <a href="tela_principal.php" class="menu-item">
                             <span>⌂</span>
                             <span>Dashboard</span>
                         </a>
@@ -296,6 +296,7 @@ require_once __DIR__ . '/../Back_end/config/database.php';
             </div>
         </section>
     </div>
+<script src="JAVASCRIPT/menu-ativo.js"></script>
 <script src="JAVASCRIPT/movimentacoes.js" defer></script>
 </body>
 </html>

@@ -29,6 +29,18 @@ try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nomeCategoria = trim($_POST['nome_categoria'] ?? '');
 
+        $sql = "select * from categorias where nome_categoria = '$nomeCategoria'";
+        $stmt = mysqli_prepare($conexao, $sql);
+        mysqli_stmt_execute($stmt);
+        $resposta = mysqli_stmt_get_result($stmt);
+        $linha = mysqli_num_rows($resposta);
+
+        if($linha > 0){
+            echo json_encode(['sucesso' => false, 'erro' => 'O nome da categoria já cadastrado.']);
+            exit;
+        }
+
+
         if (empty($nomeCategoria)) {
             echo json_encode(['sucesso' => false, 'erro' => 'O nome da categoria é obrigatório.']);
             exit;

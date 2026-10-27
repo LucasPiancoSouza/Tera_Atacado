@@ -74,7 +74,7 @@ $resultado_fornecedores = mysqli_query($con, $sql_fornecedores);
                 <nav>
                     <div class="menu-section">
                         <h3>PRINCIPAL</h3>
-                        <a href="tela_principal.php" class="menu-item active" aria-current="page">
+                        <a href="tela_principal.php" class="menu-item">
                             <span>⌂</span>
                             <span>Dashboard</span>
                         </a>
@@ -513,6 +513,7 @@ $resultado_fornecedores = mysqli_query($con, $sql_fornecedores);
             <p id="popup-sucesso-mensagem">O produto foi cadastrado com sucesso.</p>
         </div>
     </div>
+<script src="JAVASCRIPT/menu-ativo.js"></script>
 <script src="JAVASCRIPT/produtos.js" defer></script>
 </body>
 </html>

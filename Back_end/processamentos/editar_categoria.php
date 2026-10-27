@@ -32,6 +32,16 @@ if (!is_string($id) || !ctype_digit($id) || (int) $id <= 0 || $nome === '') {
     echo json_encode(['erro' => 'Informe um ID válido e o nome da categoria.']);
     exit;
 }
+$sql = "select * from categorias where nome_categoria = '$nome'";
+        $stmt = mysqli_prepare($con, $sql);
+        mysqli_stmt_execute($stmt);
+        $resposta = mysqli_stmt_get_result($stmt);
+        $linha = mysqli_num_rows($resposta);
+
+        if($linha > 0){
+            echo json_encode(['sucesso' => false, 'erro' => 'O nome da categoria já cadastrado.']);
+            exit;
+        }
 
 $id = (int) $id;
 

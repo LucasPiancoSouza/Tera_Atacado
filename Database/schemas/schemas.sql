@@ -23,7 +23,7 @@ CREATE TABLE fornecedores (
 
 CREATE TABLE categorias (
     id_categoria INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    nome_categoria VARCHAR(100) NOT NULL,
+    nome_categoria VARCHAR(100) NOT NULL UNIQUE,
     data_criacao DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
