@@ -147,7 +147,7 @@ foreach (
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CSS/tela_principal.css">
-    <title>Dashboard</title>
+    <title>Dashboard | Tera Atacado</title>
     <link rel="icon" href="Img/tera_logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
