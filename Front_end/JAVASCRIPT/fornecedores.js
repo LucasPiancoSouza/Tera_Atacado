@@ -1,3 +1,4 @@
+//fornecedor.js//
 'use strict';
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -5,15 +6,41 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('supplier-search');
     const supplierCount = document.getElementById('supplier-count');
     const emptyState = document.getElementById('supplier-empty');
+    const supplierForm = document.getElementById('supplier-form');
+    const feedbackEl = document.getElementById('supplier-feedback');
+    const popupSucesso = document.getElementById('popup-sucesso');
+    const popupSucessoTitulo = document.getElementById('popup-sucesso-titulo');
+    const popupSucessoMensagem = document.getElementById('popup-sucesso-mensagem');
 
     let fornecedoresData = [];
+    let temporizadorPopupSucesso = null;
+
+    function mostrarPopupSucesso(titulo, mensagem) {
+        if (!popupSucesso || !popupSucessoTitulo || !popupSucessoMensagem) {
+            console.error('O pop-up de sucesso não foi encontrado na página.');
+            return;
+        }
+
+        popupSucessoTitulo.textContent = titulo;
+        popupSucessoMensagem.textContent = mensagem;
+        popupSucesso.classList.add('mostrar');
+        window.clearTimeout(temporizadorPopupSucesso);
+        temporizadorPopupSucesso = window.setTimeout(() => {
+            popupSucesso.classList.remove('mostrar');
+        }, 2000);
+    }
 
     // --- 1. CARREGAR FORNECEDORES VIA FETCH ---
     function carregarFornecedores() {
         fetch('../Back_end/processamentos/listar_fornecedor.php')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro na rede ao carregar fornecedores');
+                }
+                return response.json();
+            })
             .then(data => {
-                fornecedoresData = data;
+                fornecedoresData = Array.isArray(data) ? data : [];
                 renderizarTabela(fornecedoresData);
             })
             .catch(error => console.error('Erro ao carregar fornecedores:', error));
@@ -38,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
             tr.innerHTML = `
                 <td><strong>${escapeHtml(forn.nome_fornecedor)}</strong></td>
                 <td>${escapeHtml(forn.empresa || '-')}</td>
-                <td>${escapeHtml(forn.cnpj)}</td>
+                <td>${escapeHtml(forn.cnpj || '-')}</td>
                 <td>${escapeHtml(forn.telefone || '-')}</td>
                 <td>${escapeHtml(forn.email || '-')}</td>
                 <td>${escapeHtml(forn.cep || '-')}</td>
@@ -64,6 +91,73 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // --- 4. INTEGRAÇÃO COM A API VIACEP (Com permissão de alteração manual) ---
+    const inputCep = document.getElementById('supplier-cep');
+    const inputRua = document.getElementById('supplier-rua');
+    const inputCidade = document.getElementById('supplier-cidade');
+    const inputEstado = document.getElementById('supplier-estado');
+
+    if (inputCep) {
+        inputCep.addEventListener('blur', function () {
+            let cepLimpo = inputCep.value.replace(/\D/g, '');
+
+            if (cepLimpo.length === 8) {
+                fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.erro) {
+                            if (inputRua) inputRua.value = data.logradouro || '';
+                            if (inputCidade) inputCidade.value = data.localidade || '';
+                            if (inputEstado) inputEstado.value = data.uf || '';
+                        } else {
+                            alert('CEP não encontrado. Pode preencher os campos manualmente.');
+                        }
+                    })
+                    .catch(error => console.error('Erro ao consultar o ViaCEP:', error));
+            }
+        });
+    }
+
+    // --- 5. SUBMISSÃO DO FORMULÁRIO DE CADASTRO ---
+    if (supplierForm) {
+        supplierForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(supplierForm);
+
+            fetch('../Back_end/processamentos/cadastrar_fornecedor.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(resultado => {
+                if (!resultado.sucesso && feedbackEl) {
+                    feedbackEl.hidden = false;
+                    feedbackEl.textContent = resultado.mensagem || resultado.erro;
+                    feedbackEl.style.color = '#c62828';
+                }
+
+                if (resultado.sucesso) {
+                    if (feedbackEl) feedbackEl.hidden = true;
+                    supplierForm.reset();
+                    mostrarPopupSucesso(
+                        'Fornecedor cadastrado!',
+                        resultado.mensagem || 'O fornecedor foi cadastrado com sucesso.'
+                    );
+                    carregarFornecedores(); // Atualiza a tabela dinamicamente
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao cadastrar fornecedor:', error);
+                if (feedbackEl) {
+                    feedbackEl.hidden = false;
+                    feedbackEl.textContent = 'Erro de comunicação com o servidor.';
+                    feedbackEl.style.color = '#c62828';
+                }
+            });
+        });
+    }
+
     function escapeHtml(text) {
         if (!text) return '';
         const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
@@ -72,4 +166,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Inicialização
     carregarFornecedores();
-}); 
+});

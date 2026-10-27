@@ -8,7 +8,7 @@ require_once __DIR__ . '/../config/database.php';
 
 try {
     $sql = "SELECT id_produto AS id, nome_produto AS nome, preco, quantidade FROM produtos ORDER BY nome_produto ASC";
-    $result = $conn->query($sql);
+    $result = $con->query($sql);
 
     $produtos = [];
 

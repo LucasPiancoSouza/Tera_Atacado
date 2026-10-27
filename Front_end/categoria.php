@@ -180,6 +180,13 @@ require_once __DIR__ . '/../Back_end/config/database.php';
         </div>
     </section>
 </div>
+<div id="popup-sucesso" class="popup-sucesso" role="status" aria-live="polite">
+    <div class="popup-icone" aria-hidden="true">✓</div>
+    <div>
+        <strong id="popup-sucesso-titulo">Categoria cadastrada!</strong>
+        <p id="popup-sucesso-mensagem">A categoria foi cadastrada com sucesso.</p>
+    </div>
+</div>
 <script src="JAVASCRIPT/categorias.js" defer></script>
 </body>
 </html>

@@ -1,3 +1,86 @@
+@import url("telas_componentes.css");
+
+#products-table .module-actions {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 8px;
+}
+
+#products-table .icon-button {
+    width: auto;
+    min-height: 34px;
+    gap: 6px;
+    padding: 0 10px;
+    border-color: #d9e6d4;
+    border-radius: 9px;
+    background: #f2f7ef;
+    color: var(--tera-green-dark, #2b6827);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#products-table .icon-button:hover {
+    border-color: var(--tera-green, #558647);
+    background: #e8f0e6;
+}
+
+#products-table .icon-button--danger {
+    border-color: #f0dfd1;
+    background: #fff7f0;
+    color: var(--tera-brown, #aa6d39);
+}
+
+#products-table .icon-button--danger:hover {
+    border-color: var(--tera-orange, #ff7600);
+    background: #fff0e3;
+}
+
+#products-table .icon-button:focus-visible {
+    outline: 3px solid rgba(85, 134, 71, .25);
+    outline-offset: 2px;
+}
+
+.product-edit-modal__dialog {
+    width: min(100%, 640px);
+    text-align: left;
+}
+
+.product-edit-modal__dialog > .category-modal__icon,
+.product-edit-modal__dialog > .category-modal__eyebrow,
+.product-edit-modal__dialog > .category-modal__title,
+.product-edit-modal__dialog > .category-modal__message {
+    text-align: center;
+}
+
+.product-edit-modal__fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 16px;
+}
+
+.product-edit-modal__fields .category-modal__field input,
+.product-edit-modal__fields .category-modal__field select {
+    font: 14px 'Inter', sans-serif;
+}
+
+.product-edit-modal__fields .category-modal__field select {
+    width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+    padding: 0 12px;
+    border: 1px solid #dfe5dc;
+    border-radius: 9px;
+    background: #fff;
+    color: #20251f;
+}
+
+.product-edit-modal__fields .category-modal__field input:focus,
+.product-edit-modal__fields .category-modal__field select:focus {
+    border-color: var(--tera-green, #558647);
+    outline: 3px solid rgb(85 134 71 / 16%);
+}
+
 /* Tela de produtos — acompanha a identidade visual do dashboard. */
 .page-main {
     background: var(--page-bg, #f6f8f5);
@@ -684,6 +767,20 @@
     .filter-field { flex: 1 1 130px; }
     .text-button { margin-left: auto; }
     .table-footer { padding: 12px 15px; }
+}
+
+@media (max-width: 520px) {
+    .product-edit-modal__fields {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .product-edit-modal__dialog .category-modal__actions {
+        flex-direction: column-reverse;
+    }
+
+    .product-edit-modal__dialog .category-modal__actions .module-button {
+        width: 100%;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

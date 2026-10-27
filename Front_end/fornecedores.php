@@ -101,6 +101,7 @@ require_once __DIR__ . '/../Back_end/config/database.php';
                 <th scope="col">Estado</th>
                 <th scope="col">Cidade</th>
                 <th scope="col">Logradouro</th>
+                
             </tr>
         </thead>
             <tbody>
@@ -132,12 +133,14 @@ require_once __DIR__ . '/../Back_end/config/database.php';
             <div class="module-field"><label for="supplier-cnpj">CNPJ</label><input id="supplier-cnpj" name="cnpj" type="text" maxlength="18" required placeholder="00.000.000/0000-00"></div>
             <div class="module-field"><label for="supplier-phone">Telefone</label><input id="supplier-phone" name="telefone" type="tel" maxlength="15" required placeholder="(11) 3333-0000"></div>
             <div class="module-field module-field--full"><label for="supplier-email">E-mail</label><input id="supplier-email" name="email" type="email" maxlength="100" required placeholder="contato@empresa.com"></div>
-            <div class="module-field"><label for="supplier-cep">CEP</label><input id="supplier-cep" name="cep" type="text" inputmode="numeric" maxlength="9" required placeholder="00000-000"></div>
-            <div class="module-field"><label for="supplier-state">Estado</label><input id="supplier-state" name="estado" type="text" maxlength="100" required placeholder="Ex.: São Paulo"></div>
-            <div class="module-field"><label for="supplier-city">Cidade</label><input id="supplier-city" name="cidade" type="text" maxlength="100" required placeholder="Ex.: São Paulo"></div>
-            <div class="module-field"><label for="supplier-address">Rua e número</label><input id="supplier-address" name="rua_numero" type="text" maxlength="255" required placeholder="Ex.: Rua das Flores, 123"></div>
+            
+            <!-- Campos integrados com ViaCEP (totalmente editáveis manualmente) -->
+            <div class="module-field"><label for="supplier-cep">CEP</label><input id="supplier-cep" name="cep" type="text" maxlength="9" placeholder="00000-000" required></div>
+            <div class="module-field"><label for="supplier-rua">Rua / Número</label><input id="supplier-rua" name="rua_numero" type="text" maxlength="150" placeholder="Ex: Rua A, 100" required></div>
+            <div class="module-field"><label for="supplier-cidade">Cidade</label><input id="supplier-cidade" name="cidade" type="text" maxlength="100" placeholder="Cidade" required></div>
+            <div class="module-field"><label for="supplier-estado">Estado (UF)</label><input id="supplier-estado" name="estado" type="text" maxlength="2" placeholder="UF" required></div>
         </div>
-        <div class="module-form__footer"><div class="module-actions"><button class="module-button module-button--secondary" type="reset">Limpar</button><button class="module-button module-button--primary" type="submit">Adicionar à prévia</button></div></div>
+        <div class="module-form__footer"><div class="module-actions"><button class="module-button module-button--secondary" type="reset">Limpar</button><button class="module-button module-button--primary" type="submit">Cadastrar fornecedor</button></div></div>
         <p class="module-feedback" id="supplier-feedback" role="status" hidden></p>
     </form>
 </section>
@@ -155,6 +158,13 @@ require_once __DIR__ . '/../Back_end/config/database.php';
             <a class="logout-modal__button logout-modal__confirm" href="logout.php">Sair</a>
         </div>
     </section>
+</div>
+<div id="popup-sucesso" class="popup-sucesso" role="status" aria-live="polite">
+    <div class="popup-icone" aria-hidden="true">✓</div>
+    <div>
+        <strong id="popup-sucesso-titulo">Fornecedor cadastrado!</strong>
+        <p id="popup-sucesso-mensagem">O fornecedor foi cadastrado com sucesso.</p>
+    </div>
 </div>
 <script src="JAVASCRIPT/fornecedores.js" defer></script>
 </body>

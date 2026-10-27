@@ -7,6 +7,7 @@ $sql_produtos = "
         p.nome_produto,
         p.codigo_produto,
         p.preco,
+        p.estoque_minimo,
         p.id_fornecedor,
         f.nome_fornecedor,
         p.id_categoria,
@@ -35,11 +36,10 @@ if (!$resultado) {
 
 $produtos = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
 
-$sql_categorias = "SELECT id_categoria, nome_categoria FROM categorias"; // Ajuste o nome da coluna se necessário
+$sql_categorias = "SELECT id_categoria, nome_categoria FROM categorias"; 
 $resultado_categorias = mysqli_query($con, $sql_categorias);
 
-// 2. Buscar fornecedores cadastrados
-$sql_fornecedores = "SELECT id_fornecedor, nome_fornecedor FROM fornecedores"; // Ajuste o nome da coluna se necessário
+$sql_fornecedores = "SELECT id_fornecedor, nome_fornecedor FROM fornecedores"; 
 $resultado_fornecedores = mysqli_query($con, $sql_fornecedores);
 
 
@@ -222,6 +222,20 @@ $resultado_fornecedores = mysqli_query($con, $sql_fornecedores);
             </div>
 
             <div class="product-form__field">
+                <label for="estoque_minimo">Estoque mínimo (unidades)</label>
+
+                <input
+                    type="number"
+                    id="estoque_minimo"
+                    name="estoque_minimo"
+                    min="0"
+                    step="1"
+                    placeholder="Ex.: 10"
+                    required
+                >
+            </div>
+
+            <div class="product-form__field">
                 <label for="codigo_de_barras">Código de barras</label>
 
                 <input
@@ -262,10 +276,6 @@ $resultado_fornecedores = mysqli_query($con, $sql_fornecedores);
         <?php endwhile; ?>
     <?php endif; ?>
 </select>
-                    <option value="" selected disabled>
-                        Selecione um fornecedor
-                    </option>
-                </select>
             </div>
 
         </div>
@@ -296,20 +306,81 @@ $resultado_fornecedores = mysqli_query($con, $sql_fornecedores);
             <section class="metric-grid" aria-label="Resumo dos produtos">
                 <article class="metric-card">
                     <span class="metric-card__label">Produtos listados</span>
-                    <strong class="metric-card__value" id="metric-total">9</strong>
-                    <span class="metric-card__foot">No catálogo</span>
+                    <strong class="metric-card__value" id="metric-total">
+                    <?php 
+                        $sql = "Select * from produtos";
+                        $stmt = mysqli_prepare($con, $sql);
+                        mysqli_stmt_execute($stmt);
+                        $resultado = mysqli_stmt_get_result($stmt);
+                        echo mysqli_num_rows($resultado);
+                     ?>
+                     </strong>
                     <span class="metric-card__icon metric-card__icon--green" aria-hidden="true">▦</span>
                 </article>
                 <article class="metric-card">
                     <span class="metric-card__label">Estoque baixo</span>
-                    <strong class="metric-card__value" id="metric-low">3</strong>
-                    <span class="metric-card__foot">Entre 1 e 39 unidades</span>
+                    <strong class="metric-card__value" id="metric-low">
+                        <?php  
+                                
+                        $sqlProdutosEstoqueBaixo = "
+                            SELECT
+                                p.id_produto,
+                                p.nome_produto,
+                                SUM(lp.quantidade_produto) AS total_estoque,
+                                p.estoque_minimo
+                            FROM produtos p
+                            INNER JOIN localizacao_produto lp
+                                ON p.id_produto = lp.id_produto
+                            GROUP BY p.id_produto, p.nome_produto
+                            HAVING SUM(lp.quantidade_produto) < p.estoque_minimo 
+                            and SUM(lp.quantidade_produto) > 0
+                        ";
+                        $stmtProdutosEstoqueBaixo = mysqli_prepare(
+                            $con,
+                            $sqlProdutosEstoqueBaixo
+                        );
+                        mysqli_stmt_execute($stmtProdutosEstoqueBaixo);
+                        $resultadoProdutosEstoqueBaixo = mysqli_stmt_get_result(
+                            $stmtProdutosEstoqueBaixo
+                        );
+                        echo mysqli_num_rows(
+                            $resultadoProdutosEstoqueBaixo
+                        );
+                        ?>
+                    </strong>
                     <span class="metric-card__icon metric-card__icon--orange" aria-hidden="true">!</span>
                 </article>
                 <article class="metric-card">
                     <span class="metric-card__label">Sem estoque</span>
-                    <strong class="metric-card__value" id="metric-out">2</strong>
-                    <span class="metric-card__foot">Precisam de reposição</span>
+                    <strong class="metric-card__value" id="metric-out">
+                        <?php  
+                             $sqlProdutosSemEstoque = "
+                            SELECT
+                                p.id_produto,
+                                p.nome_produto,
+                                SUM(lp.quantidade_produto) AS total_estoque
+                            FROM produtos p
+                            INNER JOIN localizacao_produto lp
+                                ON p.id_produto = lp.id_produto
+                            GROUP BY p.id_produto, p.nome_produto
+                            HAVING SUM(lp.quantidade_produto) = 0
+
+                        ";
+
+                        $stmtProdutosSemEstoque = mysqli_prepare(
+                            $con,
+                            $sqlProdutosSemEstoque
+                        );
+                        mysqli_stmt_execute($stmtProdutosSemEstoque);
+                        $resultadoProdutosSemEstoque = mysqli_stmt_get_result(
+                            $stmtProdutosSemEstoque
+                        );
+
+                        echo mysqli_num_rows(
+                            $resultadoProdutosSemEstoque
+                        );
+                        ?>
+                    </strong>
                     <span class="metric-card__icon metric-card__icon--brown" aria-hidden="true">−</span>
                 </article>
             </section>
@@ -332,22 +403,21 @@ $resultado_fornecedores = mysqli_query($con, $sql_fornecedores);
                     <label class="filter-field" for="category-filter">
                         <span>Categoria</span>
                         <select id="category-filter">
-                            <option value="">Todas as categorias</option>
-                            <option value="Alimentos">Alimentos</option>
-                            <option value="Bebidas">Bebidas</option>
-                            <option value="Laticínios">Laticínios</option>
-                            <option value="Limpeza">Limpeza</option>
+                            <option value="">Selecione uma categoria</option>
+                            <?php
+                            $stmt = mysqli_prepare($con, $sql_categorias);
+                            mysqli_stmt_execute($stmt);
+                            $resultado_categorias = mysqli_stmt_get_result($stmt);
+                            if ($resultado_categorias): ?>
+                                <?php while ($cat = mysqli_fetch_assoc($resultado_categorias)): ?>
+                                    <option value="<?= $cat['id_categoria'] ?>">
+                                        <?= htmlspecialchars($cat['nome_categoria']) ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            <?php endif; ?>
                         </select>
                     </label>
-                    <label class="filter-field" for="stock-filter">
-                        <span>Estoque</span>
-                        <select id="stock-filter">
-                            <option value="">Todas as situações</option>
-                            <option value="ok">Disponível</option>
-                            <option value="low">Estoque baixo</option>
-                            <option value="out">Sem estoque</option>
-                        </select>
-                    </label>
+
                     <button class="text-button" id="clear-product-filters" type="button">Limpar filtros</button>
                 </div>
                 <div class="table-wrap">
@@ -357,27 +427,49 @@ $resultado_fornecedores = mysqli_query($con, $sql_fornecedores);
             <th>Código</th>
             <th>Produto</th>
             <th>Preço</th>
-            <th>Fornecedor (ID)</th>
-            <th>Categoria (ID)</th>
+            <th>Fornecedor</th>
+            <th>Categoria</th>
             <th>Cód. de Barras</th>
-            <th>Ações</th> <!-- Coluna de Ações adicionada -->
+            <th>Estoque mínimo</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
         <?php if (!empty($produtos)): ?>
             <?php foreach ($produtos as $linha): ?>
-                <tr>
+                <tr data-categoria-id="<?= (int) $linha['id_categoria'] ?>">
                     <td><?= htmlspecialchars($linha['codigo_produto']) ?></td>
                     <td><?= htmlspecialchars($linha['nome_produto']) ?></td>
                     <td>R$ <?= number_format($linha['preco'], 2, ',', '.') ?></td>
                     <td><?= htmlspecialchars($linha['nome_fornecedor']) ?></td>
                     <td><?= htmlspecialchars($linha['nome_categoria']) ?></td>
                     <td><?= htmlspecialchars($linha['codigo_de_barras']) ?></td>
+                    <td><?= (int) $linha['estoque_minimo'] ?> un.</td>
+                    <td>
+                        <div class="module-actions">
+                            <button
+                                type="button"
+                                class="icon-button"
+                                data-id="<?= (int) $linha['id_produto'] ?>"
+                                title="Editar produto"
+                                aria-label="Editar produto <?= htmlspecialchars($linha['nome_produto']) ?>"
+                            >✎ <span>Editar</span></button>
+                            <button
+                                type="button"
+                                class="icon-button icon-button--danger"
+                                data-action="delete-product"
+                                data-id="<?= (int) $linha['id_produto'] ?>"
+                                data-nome="<?= htmlspecialchars($linha['nome_produto'], ENT_QUOTES, 'UTF-8') ?>"
+                                title="Excluir produto"
+                                aria-label="Excluir produto <?= htmlspecialchars($linha['nome_produto']) ?>"
+                            >× <span>Excluir</span></button>
+                        </div>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
             <tr>
-                <td colspan="7">Nenhum produto encontrado.</td>
+                <td colspan="8">Nenhum produto encontrado.</td>
             </tr>
         <?php endif; ?>
         
@@ -399,6 +491,27 @@ $resultado_fornecedores = mysqli_query($con, $sql_fornecedores);
                 <a class="logout-modal__button logout-modal__confirm" href="logout.php">Sair</a>
             </div>
         </section>
+    </div>
+    <div class="category-modal category-modal--warning" id="product-delete-modal" hidden>
+        <div class="category-modal__backdrop" data-product-modal-cancel aria-hidden="true"></div>
+        <section class="category-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="product-delete-modal-title" aria-describedby="product-delete-modal-message">
+            <button class="category-modal__close" type="button" data-product-modal-cancel aria-label="Fechar">&times;</button>
+            <span class="category-modal__icon" aria-hidden="true">!</span>
+            <p class="category-modal__eyebrow">TERA ATACADO</p>
+            <h2 class="category-modal__title" id="product-delete-modal-title">Excluir produto?</h2>
+            <p class="category-modal__message" id="product-delete-modal-message"></p>
+            <div class="category-modal__actions">
+                <button class="module-button module-button--secondary" id="product-delete-modal-cancel" type="button">Cancelar</button>
+                <button class="module-button module-button--primary category-modal__confirm--danger" id="product-delete-modal-confirm" type="button">Excluir produto</button>
+            </div>
+        </section>
+    </div>
+    <div id="popup-sucesso" class="popup-sucesso" role="status" aria-live="polite">
+        <div class="popup-icone" aria-hidden="true">✓</div>
+        <div>
+            <strong id="popup-sucesso-titulo">Produto cadastrado!</strong>
+            <p id="popup-sucesso-mensagem">O produto foi cadastrado com sucesso.</p>
+        </div>
     </div>
 <script src="JAVASCRIPT/produtos.js" defer></script>
 </body>

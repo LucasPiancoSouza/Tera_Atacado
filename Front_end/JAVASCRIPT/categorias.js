@@ -14,10 +14,29 @@ document.addEventListener('DOMContentLoaded', function () {
     const modalInput = document.getElementById('category-modal-input');
     const modalCancel = document.getElementById('category-modal-cancel');
     const modalConfirm = document.getElementById('category-modal-confirm');
+    const popupSucesso = document.getElementById('popup-sucesso');
+    const popupSucessoTitulo = document.getElementById('popup-sucesso-titulo');
+    const popupSucessoMensagem = document.getElementById('popup-sucesso-mensagem');
 
     let categoriasData = [];
     let resolverPopup = null;
     let elementoAnterior = null;
+    let temporizadorPopupSucesso = null;
+
+    function mostrarPopupSucesso(titulo, mensagem) {
+        if (!popupSucesso || !popupSucessoTitulo || !popupSucessoMensagem) {
+            console.error('O pop-up de sucesso não foi encontrado na página.');
+            return;
+        }
+
+        popupSucessoTitulo.textContent = titulo;
+        popupSucessoMensagem.textContent = mensagem;
+        popupSucesso.classList.add('mostrar');
+        window.clearTimeout(temporizadorPopupSucesso);
+        temporizadorPopupSucesso = window.setTimeout(() => {
+            popupSucesso.classList.remove('mostrar');
+        }, 2000);
+    }
 
     function abrirPopup({ titulo, mensagem, tipo = 'info', textoConfirmar = 'Fechar', textoCancelar = '', campo = false, valorCampo = '' }) {
         if (!categoryModal) {
@@ -167,11 +186,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (result.sucesso) {
                     categoryForm.reset();
-                    await abrirPopup({
-                        titulo: 'Categoria cadastrada',
-                        mensagem: result.mensagem || 'A categoria foi cadastrada com sucesso.',
-                        tipo: 'success'
-                    });
+                    mostrarPopupSucesso(
+                        'Categoria cadastrada!',
+                        result.mensagem || 'A categoria foi cadastrada com sucesso.'
+                    );
                     await carregarCategorias();
                 } else {
                     await abrirPopup({
@@ -216,11 +234,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 const result = await response.json();
 
                 if (result.sucesso) {
-                    await abrirPopup({
-                        titulo: 'Categoria excluída',
-                        mensagem: result.mensagem || 'A categoria foi excluída com sucesso.',
-                        tipo: 'success'
-                    });
+                    mostrarPopupSucesso(
+                        'Categoria excluída!',
+                        result.mensagem || 'A categoria foi excluída com sucesso.'
+                    );
                     await carregarCategorias();
                 } else {
                     await abrirPopup({
@@ -268,11 +285,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const result = await response.json();
 
             if (result.sucesso) {
-                await abrirPopup({
-                    titulo: 'Categoria atualizada',
-                    mensagem: result.mensagem || 'O nome da categoria foi atualizado com sucesso.',
-                    tipo: 'success'
-                });
+                mostrarPopupSucesso(
+                    'Categoria atualizada!',
+                    result.mensagem || 'O nome da categoria foi atualizado com sucesso.'
+                );
                 await carregarCategorias();
             } else {
                 await abrirPopup({
