@@ -6,6 +6,18 @@ header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/../config/database.php';
 
+if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true) {
+    http_response_code(401);
+    echo json_encode(['erro' => 'Usuário não está logado.']);
+    exit;
+}
+
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== '1') {
+    http_response_code(403);
+    echo json_encode(['erro' => 'Usuário não tem permissão para excluir categorias.']);
+    exit;
+}
+
 try {
     $conexao = null;
     if (isset($con) && $con instanceof mysqli) {
