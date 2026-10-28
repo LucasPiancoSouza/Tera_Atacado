@@ -32,7 +32,7 @@ $resultadoLocalizacoes = $con->query($sqlLocalizacoes);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="CSS/tela_principal.css">
-    <link rel="stylesheet" href="CSS/entrada.css">
+    <link rel="stylesheet" href="CSS/telas_componentes.css">
 </head>
 
 <body>
@@ -76,6 +76,10 @@ $resultadoLocalizacoes = $con->query($sqlLocalizacoes);
                         <a href="movimentacoes.php" class="menu-item">
                             <span>↕</span>
                             <span>Movimentações</span>
+                        </a>
+                        <a href="localizacoes.php" class="menu-item">
+                            <span>⌖</span>
+                            <span>Localizações</span>
                         </a>
                     </div>
                     <div class="menu-section">

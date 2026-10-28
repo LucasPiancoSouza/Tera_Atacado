@@ -105,6 +105,10 @@ $resultado_fornecedores = mysqli_query($con, $sql_fornecedores);
                             <span>↕</span>
                             <span>Movimentações</span>
                         </a>
+                        <a href="localizacoes.php" class="menu-item">
+                            <span>⌖</span>
+                            <span>Localizações</span>
+                        </a>
                     </div>
                     <div class="menu-section">
                         <h3>GESTÃO</h3>
