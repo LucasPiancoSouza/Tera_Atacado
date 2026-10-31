@@ -464,6 +464,7 @@ foreach (
                     p.id_produto,
                     p.nome_produto,
                     c.nome_categoria,
+                    p.estoque_minimo,
                     SUM(lp.quantidade_produto) AS total_estoque
                 FROM produtos p
                 INNER JOIN categorias c
@@ -474,7 +475,7 @@ foreach (
                     p.id_produto,
                     p.nome_produto,
                     c.nome_categoria
-                HAVING SUM(lp.quantidade_produto) < 40
+                HAVING SUM(lp.quantidade_produto) <= p.estoque_minimo
                 ORDER BY total_estoque ASC
                 LIMIT 5
             ";
