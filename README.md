@@ -1,80 +1,147 @@
 # Tera Atacado
 
-Sistema de gerenciamento de estoque desenvolvido como projeto acadêmico para um atacadão fictício.
+Sistema de gerenciamento de estoque desenvolvido como projeto acadêmico para a **Bartotec**, feira de tecnologia da ETEC Bartolomeu Bueno da Silva.
 
-## Sobre o projeto
+O sistema foi criado para facilitar o controle de estoque de estabelecimentos comerciais, centralizando o gerenciamento de produtos, fornecedores, categorias, localizações e movimentações.
 
-O Tera Atacado está sendo desenvolvido para apoiar o controle de produtos, fornecedores, categorias e movimentações de estoque. O sistema ainda está em desenvolvimento: algumas telas e estruturas de banco já existem, mas os fluxos de gestão ainda não estão completos.
+## Funcionalidades
 
-## Estado atual
+- **Login:** acesso com CPF e senha e controle de sessão.
+- **Dashboard:** gráficos de entradas e saídas em diferentes períodos.
+- **Produtos:** cadastro, consulta, edição e exclusão.
+- **Categorias:** gerenciamento das categorias dos produtos.
+- **Fornecedores:** cadastro e gerenciamento de fornecedores.
+- **Estoque por localização:** consulta das quantidades por setor, corredor, prateleira e andar.
+- **Entradas e saídas:** registro de movimentações, com verificação do saldo disponível.
+- **Histórico:** consulta das movimentações realizadas, com data e usuário responsável.
+- **Relatórios:** consulta de produtos, entradas, saídas, estoque baixo e movimentações, com filtros e exportação em CSV ou PDF.
 
-### Implementado ou estruturado
+## Demonstração
 
-- Tela de acesso em PHP/HTML com estilos responsivos e opção para mostrar ou ocultar a senha.
-- Backend PHP com conexão ao MySQL por variáveis de ambiente.
-- Estrutura de banco de dados para usuários, fornecedores, categorias, produtos, localizações e movimentações.
-- Modelo de estoque por localização, com quantidade de cada produto em cada local.
-- Campos para código de barras e registro de entradas e saídas, incluindo usuário, data e observação.
-- Ambiente Docker Compose com MySQL e PHP 8.4/Apache.
+As imagens abaixo apresentam algumas telas do sistema.
 
-## Tecnologias
 
-- **Interface:** HTML, CSS, JavaScript e PHP
-- **Backend e servidor web:** PHP 8.4 com Apache
-- **Banco de dados:** MySQL 8.4
-- **Ambiente de desenvolvimento:** Docker Compose
 
-## Executar com Docker
 
-1. Crie o arquivo `.env` a partir do exemplo e ajuste as credenciais conforme necessário:
 
-   ```bash
-   cp .env.example .env
-   ```
 
-2. Inicie os serviços:
 
-   ```bashcker compose up -d
-   docker compose up -d --build
-   ```
 
-3. Confira os containers:
 
-   ```bash
-   docker compose ps
-   ```
+## Tecnologias utilizadas
 
-4. Acesse a tela de entrada em <http://localhost:8080/Front_end/>. O endpoint de verificação do backend está em <http://localhost:8080/Back_end/public/>.
+- HTML, CSS e JavaScript
+- PHP 8.4 com Apache
+- MySQL 8.4
+- Docker Compose
 
-Para parar os serviços:
+## Melhorias futuras
+
+- Controle de validade dos produtos.
+- Pedidos de reposição para fornecedores.
+- Notificações de estoque baixo.
+
+## Como executar
+
+### Pré-requisitos
+
+- Docker Desktop.
+- Git (opcional, para clonar o repositório).
+
+### 1. Clone o repositório
+
+```bash
+git clone URL_DO_REPOSITORIO
+```
+
+Entre na pasta do projeto.
+
+### 2. Configure as variáveis de ambiente
+
+Crie o arquivo `.env` utilizando o arquivo de exemplo:
+
+**PowerShell:**
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Abra o arquivo `.env` e substitua os valores de exemplo pelas suas próprias configurações do MySQL.
+
+**Atenção:** configure principalmente o usuário e a senha do banco de dados. Não deixe valores de exemplo, como `MYSQL_PASSWORD=senha`. Defina uma senha de sua preferência e também configure `MYSQL_ROOT_PASSWORD`.
+
+Confira também se o banco está definido corretamente:
+
+```env
+MYSQL_DATABASE=tera_atacado
+```
+
+### 3. Inicie os serviços
+
+Na pasta principal do projeto, execute:
+
+```bash
+docker compose up -d --build
+```
+
+### 4. Importe o banco de dados
+
+Importe o arquivo:
+
+```text
+Database/schemas/schemas.sql
+```
+
+Para utilizar os dados de exemplo, importe também:
+
+```text
+Database/seeds/seeds.sql
+```
+
+O arquivo de dados de exemplo deve ser importado depois do schema.
+
+### 5. Acesse o sistema
+
+Abra o navegador e acesse:
+
+[http://localhost:8080/Front_end/index.php](http://localhost:8080/Front_end/index.php)
+
+### Comandos úteis
+
+Verificar os serviços:
+
+```bash
+docker compose ps
+```
+
+Parar os serviços:
 
 ```bash
 docker compose down
 ```
 
-Os dados do MySQL são mantidos no volume `mysql_data`. O arquivo `Database/schemas/schemas.sql` não é importado automaticamente pelo Compose; antes de usá-lo, confira se o nome do banco definido no script corresponde exatamente ao valor de `MYSQL_DATABASE` no `.env`.
+**Observação:** os dados do MySQL são mantidos no volume `mysql_data`. O comando `docker compose down` não apaga esse volume.
 
-## Banco de dados
+## Estrutura do banco de dados
 
-As configurações do banco são lidas das variáveis abaixo:
+O banco de dados possui tabelas para:
 
-| Variável | Exemplo no `.env.example` | Uso |
-| --- | --- | --- |
-| `MYSQL_DATABASE` | `Tera_atacado` | Banco utilizado pela aplicação |
-| `MYSQL_USER` | `usuario` | Usuário da aplicação |
-| `MYSQL_PASSWORD` | `senha` | Senha do usuário da aplicação |
-| `MYSQL_ROOT_PASSWORD` | `senha` | Senha administrativa do MySQL |
-| Porta no host | `3307` | Acesso externo ao MySQL |
-| Porta no container | `3306` | Porta interna do MySQL |
-
-O schema em `Database/schemas/schemas.sql` define as tabelas `usuarios`, `fornecedores`, `categorias`, `produtos`, `localizacao`, `localizacao_produto` e `movimentacoes`.
+- Usuários
+- Fornecedores
+- Categorias
+- Produtos
+- Localizações
+- Produtos por localização
+- Movimentações
 
 ## Equipe
 
-- Lucas Piancó
-- Carlos Eduardo
-- Luis Gabriel
+- **Lucas Piancó:** [GitHub](https://github.com/LucasPiancoSouza)
+- **Carlos Eduardo:** [GitHub](https://github.com/Cadu782)
+- **Luis Gabriel:** [GitHub](https://github.com/louisEmbassado)
 
 ## Status
 
-Em desenvolvimento.
+**Projeto acadêmico finalizado.**
+
+As melhorias futuras estão listadas separadamente e não fazem parte da versão atual.
