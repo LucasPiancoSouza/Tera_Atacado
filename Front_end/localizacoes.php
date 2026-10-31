@@ -196,7 +196,6 @@ $quantidadeTotalEstoque = (int) $registroTotalUnidadesEstoque['total_estoque'];
                         <h2 id="location-table-title">Produtos por posição</h2>
                         <p>Exemplos fictícios para demonstrar a organização do estoque.</p>
                     </div>
-                    <span class="module-count">6 exemplos</span>
                 </div>
                 <div class="module-table-wrap">
                     <table class="module-table module-table--wide location-table">
